@@ -53,6 +53,13 @@ export default function WaitlistForm({ buttonText = 'Join Waitlist', className =
     <form onSubmit={handleSubmit} className={className}>
       <div className="flex flex-col sm:flex-row gap-3">
         <label htmlFor="waitlist-email" className="sr-only">Email address</label>
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="px-6 py-3.5 bg-[#39FF14] text-[#09090B] font-bold rounded-xl transition-all duration-200 hover:brightness-110 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#39FF14] min-h-[44px] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {status === 'loading' ? 'Joining...' : buttonText}
+        </button>
         <input
           type="email"
           id="waitlist-email"
@@ -65,13 +72,6 @@ export default function WaitlistForm({ buttonText = 'Join Waitlist', className =
           autoComplete="email"
           className="flex-1 px-5 py-3.5 bg-transparent border border-[rgba(255,255,255,0.1)] rounded-xl text-[#F5F0EB] placeholder:text-[#5C5852] focus:outline-none focus:border-[#C9A87C] focus:ring-1 focus:ring-[#C9A87C] transition-colors duration-200 min-h-[44px] disabled:opacity-50"
         />
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="px-6 py-3.5 bg-[#39FF14] text-[#09090B] font-bold rounded-xl transition-all duration-200 hover:brightness-110 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#39FF14] min-h-[44px] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {status === 'loading' ? 'Joining...' : buttonText}
-        </button>
       </div>
       {status === 'error' && (
         <p className="text-[#39FF14] text-sm mt-2">{errorMsg}</p>

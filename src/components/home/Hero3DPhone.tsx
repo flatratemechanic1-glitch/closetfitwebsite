@@ -34,10 +34,61 @@ function PhoneCarousel({ screenshots }: { screenshots: string[] }) {
   const count = screenshots.length;
   const radius = 4.5;
 
-  useFrame(({ pointer, clock }) => {
-    // Auto-rotate the carousel
+  // Drag state
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const rotationOffset = useRef(0);
+  const autoRotationBase = useRef(0);
+  const dragDelta = useRef(0);
+  const clockAtRelease = useRef(0);
+
+  useEffect(() => {
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDragging.current) return;
+      dragDelta.current = (e.clientX - dragStartX.current) * 0.01;
+    };
+
+    const onPointerUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      // Bake final rotation so auto-resume is seamless:
+      // new offset = (where we ended) - (where clock will put us)
+      const finalRotation = autoRotationBase.current + dragDelta.current;
+      rotationOffset.current = finalRotation;
+      clockAtRelease.current = performance.now() / 1000;
+      dragDelta.current = 0;
+      document.body.style.cursor = '';
+    };
+
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+    };
+  }, []);
+
+  const handlePointerDown = (e: any) => {
+    isDragging.current = true;
+    dragStartX.current = (e.nativeEvent || e).clientX;
+    // Snapshot current total rotation so we can add drag delta to it
     if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
+      autoRotationBase.current = groupRef.current.rotation.y;
+    }
+    dragDelta.current = 0;
+    document.body.style.cursor = 'grabbing';
+  };
+
+  useFrame(({ pointer }) => {
+    if (groupRef.current) {
+      if (isDragging.current) {
+        // While dragging: frozen auto-rotation + live drag delta
+        groupRef.current.rotation.y = autoRotationBase.current + dragDelta.current;
+      } else {
+        // Auto-rotate from where the last drag ended
+        const elapsed = performance.now() / 1000 - clockAtRelease.current;
+        groupRef.current.rotation.y = rotationOffset.current + elapsed * 0.15;
+      }
     }
     // Subtle mouse tilt on the whole thing
     if (tiltRef.current) {
@@ -57,7 +108,7 @@ function PhoneCarousel({ screenshots }: { screenshots: string[] }) {
   return (
     <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
       <group ref={tiltRef}>
-        <group ref={groupRef}>
+        <group ref={groupRef} onPointerDown={handlePointerDown}>
           {screenshots.map((url, i) => {
             const angle = (i / count) * Math.PI * 2;
             const x = Math.sin(angle) * radius;
@@ -154,7 +205,7 @@ export default function Hero3DPhone({ screenshots }: Props) {
   }
 
   return (
-    <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]">
+    <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]" style={{ cursor: 'grab' }}>
       <Suspense fallback={<PhonePlaceholder />}>
         <Canvas
           gl={{ alpha: true, antialias: true }}

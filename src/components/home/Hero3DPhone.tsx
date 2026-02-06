@@ -4,43 +4,75 @@ import { useRef, Suspense, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 interface Props {
-  screenshotUrl: string;
+  screenshots: string[];
 }
 
-function PhoneMockup({ screenshotUrl }: { screenshotUrl: string }) {
-  const meshRef = useRef<THREE.Group>(null);
+function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
   const texture = useLoader(THREE.TextureLoader, screenshotUrl);
+  return (
+    <group>
+      {/* Phone body */}
+      <RoundedBox args={[1.6, 3.2, 0.12]} radius={0.12} smoothness={4}>
+        <meshStandardMaterial
+          color="#131316"
+          metalness={0.8}
+          roughness={0.2}
+        />
+      </RoundedBox>
+      {/* Screen */}
+      <mesh position={[0, 0, 0.065]}>
+        <planeGeometry args={[1.4, 3.0]} />
+        <meshBasicMaterial map={texture} />
+      </mesh>
+    </group>
+  );
+}
 
-  useFrame(({ pointer }) => {
-    if (!meshRef.current) return;
-    meshRef.current.rotation.y = THREE.MathUtils.lerp(
-      meshRef.current.rotation.y,
-      pointer.x * 0.3,
-      0.05
-    );
-    meshRef.current.rotation.x = THREE.MathUtils.lerp(
-      meshRef.current.rotation.x,
-      -pointer.y * 0.15,
-      0.05
-    );
+function PhoneCarousel({ screenshots }: { screenshots: string[] }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const tiltRef = useRef<THREE.Group>(null);
+  const count = screenshots.length;
+  const radius = 4.5;
+
+  useFrame(({ pointer, clock }) => {
+    // Auto-rotate the carousel
+    if (groupRef.current) {
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
+    }
+    // Subtle mouse tilt on the whole thing
+    if (tiltRef.current) {
+      tiltRef.current.rotation.y = THREE.MathUtils.lerp(
+        tiltRef.current.rotation.y,
+        pointer.x * 0.1,
+        0.03
+      );
+      tiltRef.current.rotation.x = THREE.MathUtils.lerp(
+        tiltRef.current.rotation.x,
+        -pointer.y * 0.08,
+        0.03
+      );
+    }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.5}>
-      <group ref={meshRef}>
-        {/* Phone body */}
-        <RoundedBox args={[2.2, 4.5, 0.15]} radius={0.15} smoothness={4}>
-          <meshStandardMaterial
-            color="#131316"
-            metalness={0.8}
-            roughness={0.2}
-          />
-        </RoundedBox>
-        {/* Screen with screenshot */}
-        <mesh position={[0, 0, 0.08]}>
-          <planeGeometry args={[2, 4.2]} />
-          <meshBasicMaterial map={texture} />
-        </mesh>
+    <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
+      <group ref={tiltRef}>
+        <group ref={groupRef}>
+          {screenshots.map((url, i) => {
+            const angle = (i / count) * Math.PI * 2;
+            const x = Math.sin(angle) * radius;
+            const z = Math.cos(angle) * radius;
+            return (
+              <group
+                key={i}
+                position={[x, 0, z]}
+                rotation={[0, angle, 0]}
+              >
+                <PhoneCard screenshotUrl={url} />
+              </group>
+            );
+          })}
+        </group>
       </group>
     </Float>
   );
@@ -66,27 +98,35 @@ function PhonePlaceholder() {
   );
 }
 
-function StaticPhoneFallback({ screenshotUrl }: { screenshotUrl: string }) {
+function StaticCarouselFallback({ screenshots }: { screenshots: string[] }) {
+  const display = screenshots.slice(0, 3);
   return (
-    <div className="w-full h-full flex items-center justify-center" aria-hidden="true">
-      <div
-        className="relative w-[200px] h-[400px] sm:w-[240px] sm:h-[480px] rounded-[32px] glass overflow-hidden"
-        style={{
-          transform: 'perspective(800px) rotateY(-8deg) rotateX(4deg)',
-        }}
-      >
-        <img
-          src={screenshotUrl}
-          alt=""
-          className="absolute inset-[8px] rounded-[24px] object-cover"
-          loading="lazy"
-        />
-      </div>
+    <div className="w-full h-full flex items-center justify-center gap-4" aria-hidden="true">
+      {display.map((src, i) => (
+        <div
+          key={i}
+          className="relative rounded-[24px] glass overflow-hidden"
+          style={{
+            width: i === 1 ? 160 : 120,
+            height: i === 1 ? 320 : 260,
+            transform: `perspective(800px) rotateY(${i === 0 ? 15 : i === 2 ? -15 : 0}deg)`,
+            opacity: i === 1 ? 1 : 0.6,
+            zIndex: i === 1 ? 2 : 1,
+          }}
+        >
+          <img
+            src={src}
+            alt=""
+            className="absolute inset-[6px] rounded-[18px] object-cover"
+            loading="lazy"
+          />
+        </div>
+      ))}
     </div>
   );
 }
 
-export default function Hero3DPhone({ screenshotUrl }: Props) {
+export default function Hero3DPhone({ screenshots }: Props) {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -108,7 +148,7 @@ export default function Hero3DPhone({ screenshotUrl }: Props) {
   if (reducedMotion) {
     return (
       <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]">
-        <StaticPhoneFallback screenshotUrl={screenshotUrl} />
+        <StaticCarouselFallback screenshots={screenshots} />
       </div>
     );
   }
@@ -118,12 +158,12 @@ export default function Hero3DPhone({ screenshotUrl }: Props) {
       <Suspense fallback={<PhonePlaceholder />}>
         <Canvas
           gl={{ alpha: true, antialias: true }}
-          camera={{ position: [0, 0, 8], fov: 45 }}
+          camera={{ position: [0, 1, 12], fov: 40 }}
           style={{ background: 'transparent' }}
         >
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 5, 5]} intensity={0.6} />
-          <PhoneMockup screenshotUrl={screenshotUrl} />
+          <PhoneCarousel screenshots={screenshots} />
           <Environment preset="city" />
         </Canvas>
       </Suspense>

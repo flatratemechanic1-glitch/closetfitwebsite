@@ -14,6 +14,17 @@ const schema = {
   description: 'AI-powered virtual try-on and wardrobe app. See yourself in any outfit, digitally.',
 };
 
+const heroScreenshots = [
+  '/screenshots/01.png',
+  '/screenshots/02.png',
+  '/screenshots/03.png',
+  '/screenshots/04.png',
+  '/screenshots/05.png',
+  '/screenshots/06.png',
+  '/screenshots/07.png',
+  '/screenshots/08.png',
+];
+
 const howItWorksSteps = [
   {
     label: 'Step 1',
@@ -172,7 +183,7 @@ const howItWorksSteps = [
 
       <!-- Right column: 3D Phone Mockup (hidden on small mobile) -->
       <div class="hidden sm:block flex-shrink-0 w-full sm:w-auto lg:w-[400px] xl:w-[480px] animate-[fade-up_0.6s_ease-out_0.4s_both]">
-        <Hero3DPhone client:visible screenshotUrl="/screenshots/01.png" />
+        <Hero3DPhone client:visible screenshots={heroScreenshots} />
       </div>
     </div>
 

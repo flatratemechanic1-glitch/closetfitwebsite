@@ -70,7 +70,7 @@ export default function WaitlistForm({ buttonText = 'Join Waitlist', className =
           placeholder="you@email.com"
           disabled={status === 'loading'}
           autoComplete="email"
-          className="flex-1 px-5 py-3.5 bg-transparent border border-[rgba(255,255,255,0.1)] rounded-xl text-[#F5F0EB] placeholder:text-[#5C5852] focus:outline-none focus:border-[#C9A87C] focus:ring-1 focus:ring-[#C9A87C] transition-colors duration-200 min-h-[44px] disabled:opacity-50"
+          className="flex-1 px-5 py-3.5 bg-transparent border border-[rgba(255,255,255,0.3)] rounded-xl text-[#F5F0EB] placeholder:text-[#5C5852] focus:outline-none focus:border-[#39FF14] focus:ring-1 focus:ring-[#39FF14] transition-colors duration-200 min-h-[44px] disabled:opacity-50"
         />
       </div>
       {status === 'error' && (

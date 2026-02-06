@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ClosetFitApp',
+  url: 'https://closetfitapp.com',
+  description: 'AI-powered wardrobe management and outfit planning app. Wear everything you own.',
+};
+---
+
+<BaseLayout
+  title="ClosetFitApp — AI-Powered Wardrobe Management"
+  description="ClosetFitApp uses AI to organize your wardrobe and plan daily outfits. Wear everything you own. Coming soon."
+  schema={schema}
+>
+  <div class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4">
+    <!-- Animated gradient background -->
+    <div
+      class="absolute inset-0 opacity-40"
+      style="background: radial-gradient(ellipse at 30% 50%, #1A237E 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, #2962FF 0%, transparent 50%), #121212; background-size: 200% 200%; animation: gradient-shift 8s ease-in-out infinite;"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center max-w-2xl">
+      <!-- Logo / Brand -->
+      <div class="mb-8 animate-[fade-up_0.6s_ease-out_both]">
+        <span class="text-sm font-mono uppercase tracking-[0.3em] text-electric-blue">
+          Coming Soon
+        </span>
+      </div>
+
+      <!-- Headline -->
+      <h1
+        class="text-5xl sm:text-7xl font-bold tracking-tight text-text-primary mb-6 animate-[fade-up_0.6s_ease-out_0.1s_both]"
+      >
+        Wear Everything
+        <br />
+        <span class="text-electric-blue">You Own</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p
+        class="text-lg sm:text-xl text-text-secondary max-w-lg mx-auto mb-10 animate-[fade-up_0.6s_ease-out_0.2s_both]"
+      >
+        AI-powered wardrobe management that organizes your closet and plans your
+        daily outfits. Stop wearing the same 20%.
+      </p>
+
+      <!-- Email Capture Form -->
+      <div class="animate-[fade-up_0.6s_ease-out_0.3s_both]">
+        <form
+          class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          action="#"
+          method="POST"
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            class="flex-1 px-4 py-3 bg-surface border border-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-electric-blue focus:ring-1 focus:ring-electric-blue transition-colors min-h-[44px]"
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 bg-neon-lime text-bg font-bold rounded-lg transition-all duration-200 hover:bg-neon-lime-light hover:-translate-y-0.5 hover:shadow-glow-lime focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon-lime min-h-[44px] animate-[glow-pulse_3s_ease-in-out_infinite] whitespace-nowrap"
+          >
+            Get Early Access
+          </button>
+        </form>
+        <p class="text-sm text-text-muted mt-3">
+          Join the waitlist. No spam, ever.
+        </p>
+      </div>
+
+      <!-- Feature Highlights -->
+      <div
+        class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left animate-[fade-up_0.6s_ease-out_0.5s_both]"
+      >
+        <div class="p-5 bg-surface/50 rounded-xl border border-border backdrop-blur-sm">
+          <div class="text-2xl mb-2">📸</div>
+          <h3 class="font-semibold text-text-primary text-sm">Photograph</h3>
+          <p class="text-text-muted text-sm mt-1">
+            Snap your clothes. AI catalogs everything automatically.
+          </p>
+        </div>
+        <div class="p-5 bg-surface/50 rounded-xl border border-border backdrop-blur-sm">
+          <div class="text-2xl mb-2">🤖</div>
+          <h3 class="font-semibold text-text-primary text-sm">AI Organizes</h3>
+          <p class="text-text-muted text-sm mt-1">
+            Smart tagging, color analysis, and outfit matching.
+          </p>
+        </div>
+        <div class="p-5 bg-surface/50 rounded-xl border border-border border-l-2 border-l-neon-lime backdrop-blur-sm">
+          <div class="text-2xl mb-2">✨</div>
+          <h3 class="font-semibold text-text-primary text-sm">Daily Outfits</h3>
+          <p class="text-text-muted text-sm mt-1">
+            AI-powered suggestions based on weather, calendar, and style.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subtle animated particles (CSS-only) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      <div class="absolute w-2 h-2 bg-electric-blue/30 rounded-full animate-[float_6s_ease-in-out_infinite]" style="top: 20%; left: 10%;"></div>
+      <div class="absolute w-1 h-1 bg-neon-lime/20 rounded-full animate-[float_8s_ease-in-out_1s_infinite]" style="top: 60%; left: 80%;"></div>
+      <div class="absolute w-1.5 h-1.5 bg-electric-blue/20 rounded-full animate-[float_7s_ease-in-out_2s_infinite]" style="top: 40%; left: 60%;"></div>
+      <div class="absolute w-1 h-1 bg-neon-lime/15 rounded-full animate-[float_9s_ease-in-out_0.5s_infinite]" style="top: 80%; left: 25%;"></div>
+      <div class="absolute w-2 h-2 bg-electric-blue/15 rounded-full animate-[float_7s_ease-in-out_3s_infinite]" style="top: 15%; left: 75%;"></div>
+    </div>
+  </div>
+</BaseLayout>

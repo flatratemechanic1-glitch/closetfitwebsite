@@ -1,0 +1,45 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import SEOHead from '../components/global/SEOHead.astro';
+import ScrollProgress from '../components/global/ScrollProgress.astro';
+import '../styles/global.css';
+import '../styles/animations.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  schema?: object | object[];
+  noindex?: boolean;
+  article?: {
+    publishedTime: string;
+    modifiedTime?: string;
+    author: string;
+    section: string;
+    tags: string[];
+  };
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <SEOHead {...props} />
+    <ClientRouter />
+  </head>
+  <body class="bg-bg text-text-primary antialiased min-h-screen font-sans">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-electric-blue focus:text-white focus:rounded-md"
+    >
+      Skip to content
+    </a>
+    <ScrollProgress />
+    <main id="main-content">
+      <slot />
+    </main>
+  </body>
+</html>

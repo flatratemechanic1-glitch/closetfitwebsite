@@ -188,10 +188,8 @@ export default function PricingToggle({ plans }: Props) {
           aria-checked={isAnnual}
           aria-label="Toggle annual billing"
           onClick={() => setIsAnnual(!isAnnual)}
-          className={`relative w-14 h-8 rounded-full transition-colors duration-300 cursor-pointer ${
-            isAnnual
-              ? 'bg-champagne/20 border border-champagne/40'
-              : 'glass-strong'
+          className={`relative w-14 h-8 rounded-full glass-strong transition-colors duration-300 cursor-pointer ${
+            isAnnual ? 'bg-champagne/20' : ''
           }`}
         >
           <span

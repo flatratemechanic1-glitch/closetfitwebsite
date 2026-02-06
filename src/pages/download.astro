@@ -1,0 +1,162 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { productSchema, breadcrumbSchema } from '../lib/schema';
+import MagneticButton from '../components/ui/MagneticButton.tsx';
+
+const schema = [
+  productSchema(),
+  breadcrumbSchema([
+    { name: 'Home', url: 'https://closetfitapp.com/' },
+    { name: 'Download', url: 'https://closetfitapp.com/download/' },
+  ]),
+];
+
+const screenshots = [
+  { src: '/screenshots/01.png', alt: 'ClosetFit home screen with AI outfit suggestions' },
+  { src: '/screenshots/02.png', alt: 'Virtual try-on feature showing outfit preview' },
+  { src: '/screenshots/03.png', alt: 'Wardrobe catalog with clothing items organized' },
+  { src: '/screenshots/04.png', alt: 'Daily outfit recommendations personalized by AI' },
+  { src: '/screenshots/05.png', alt: 'Style quiz results with personalized suggestions' },
+];
+---
+
+<PageLayout
+  title="Download ClosetFitApp — iOS & Android"
+  description="Download ClosetFitApp for iOS and Android. AI-powered virtual try-on and wardrobe management. Coming soon to the App Store and Google Play."
+  heading="Get ClosetFit"
+  subheading="Your AI-powered wardrobe assistant is almost here. Join the waitlist to be first in line."
+  schema={schema}
+>
+  <!-- Coming Soon Badge -->
+  <section class="relative py-8 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-5 py-2.5 glass-strong rounded-full mb-8">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-coral opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-coral"></span>
+        </span>
+        <span class="text-sm font-medium text-text-primary">Coming Soon — Early 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fanned Screenshot Cards -->
+  <section class="relative py-8 sm:py-16 px-4 overflow-hidden" aria-label="App screenshots">
+    <div class="max-w-4xl mx-auto">
+      <div class="relative flex items-center justify-center" style="height: 480px; perspective: 1200px;">
+        {screenshots.map((shot, i) => {
+          const total = screenshots.length;
+          const mid = Math.floor(total / 2);
+          const offset = i - mid;
+          const rotate = offset * 8;
+          const translateX = offset * 60;
+          const translateZ = -Math.abs(offset) * 30;
+          const zIndex = total - Math.abs(offset);
+          return (
+            <div
+              class="absolute transition-all duration-500 hover:-translate-y-4 hover:z-50 group cursor-pointer"
+              style={`
+                transform: translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotate}deg);
+                z-index: ${zIndex};
+                transform-style: preserve-3d;
+              `}
+            >
+              <div class="w-48 sm:w-56 rounded-[24px] overflow-hidden shadow-lg border border-border group-hover:border-champagne/30 group-hover:shadow-glow-champagne transition-all duration-300">
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  loading="lazy"
+                  class="w-full h-auto"
+                  width="224"
+                  height="486"
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- App Store Badges -->
+  <section class="relative py-12 sm:py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl sm:text-3xl font-display font-bold text-text-primary mb-4">
+        Available on
+        <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+          iOS & Android
+        </span>
+      </h2>
+      <p class="text-text-secondary mb-8">
+        ClosetFitApp will be available on both platforms at launch. Join the waitlist to get notified the moment we go live.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+        <!-- Apple App Store Badge -->
+        <div class="relative group">
+          <div class="glass rounded-xl px-6 py-4 flex items-center gap-3 min-w-[200px] opacity-70 cursor-default transition-all duration-300 group-hover:opacity-90">
+            <svg class="w-8 h-8 text-text-primary shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-text-muted uppercase tracking-wider">Coming soon on</div>
+              <div class="text-text-primary font-semibold text-sm">App Store</div>
+            </div>
+          </div>
+          <div class="absolute -top-2 -right-2 px-2 py-0.5 bg-coral/20 border border-coral/40 rounded-full text-[10px] text-coral font-mono uppercase tracking-wider">
+            Soon
+          </div>
+        </div>
+
+        <!-- Google Play Badge -->
+        <div class="relative group">
+          <div class="glass rounded-xl px-6 py-4 flex items-center gap-3 min-w-[200px] opacity-70 cursor-default transition-all duration-300 group-hover:opacity-90">
+            <svg class="w-8 h-8 text-text-primary shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M17.523 2.394l-1.757 3.025c1.651.943 2.793 2.573 3.041 4.505H4.193c.248-1.932 1.39-3.562 3.041-4.505L5.477 2.394a.39.39 0 01.143-.534.39.39 0 01.535.143l1.79 3.082a8.39 8.39 0 013.055-.576c1.089 0 2.126.205 3.055.576l1.79-3.082a.39.39 0 01.535-.143.39.39 0 01.143.534zM8.5 7.924a.75.75 0 100-1.5.75.75 0 000 1.5zm7 0a.75.75 0 100-1.5.75.75 0 000 1.5zM4 11.924h16v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8z" />
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-text-muted uppercase tracking-wider">Coming soon on</div>
+              <div class="text-text-primary font-semibold text-sm">Google Play</div>
+            </div>
+          </div>
+          <div class="absolute -top-2 -right-2 px-2 py-0.5 bg-coral/20 border border-coral/40 rounded-full text-[10px] text-coral font-mono uppercase tracking-wider">
+            Soon
+          </div>
+        </div>
+      </div>
+
+      <!-- QR Code Placeholder -->
+      <div class="glass rounded-2xl p-8 max-w-xs mx-auto">
+        <div class="w-40 h-40 mx-auto rounded-xl bg-surface-solid border border-border flex items-center justify-center mb-4">
+          <div class="text-center">
+            <svg class="w-10 h-10 text-text-muted mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+            </svg>
+            <span class="text-xs text-text-muted font-mono">QR Code</span>
+          </div>
+        </div>
+        <p class="text-text-muted text-xs text-center">Scan to download when available</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist CTA -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4">
+        Can't wait? Neither can we.
+      </h2>
+      <p class="text-text-secondary text-lg mb-8 max-w-lg mx-auto">
+        Join 1,200+ people on the waitlist and be the first to try ClosetFitApp when it launches.
+      </p>
+      <MagneticButton client:visible>
+        <a
+          href="/waitlist"
+          class="inline-block px-8 py-4 bg-coral text-bg font-bold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px] text-lg"
+        >
+          Join the Waitlist
+        </a>
+      </MagneticButton>
+    </div>
+  </section>
+</PageLayout>

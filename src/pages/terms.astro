@@ -1,0 +1,241 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { breadcrumbSchema } from '../lib/schema';
+
+const schema = breadcrumbSchema([
+  { name: 'Home', url: 'https://closetfitapp.com/' },
+  { name: 'Terms of Service', url: 'https://closetfitapp.com/terms/' },
+]);
+
+const lastUpdated = 'February 6, 2026';
+---
+
+<PageLayout
+  title="Terms of Service — ClosetFitApp"
+  description="ClosetFitApp terms of service. Read our terms and conditions for using the AI-powered wardrobe management and virtual try-on platform."
+  heading="Terms of Service"
+  subheading={`Last updated: ${lastUpdated}`}
+  schema={schema}
+>
+  <section class="relative py-12 sm:py-16 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="prose-dark space-y-10">
+
+        <!-- 1. Acceptance of Terms -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">1. Acceptance of Terms</h2>
+          <p class="text-text-secondary leading-relaxed">
+            By accessing or using ClosetFitApp (the "Service"), operated by ClosetFitApp ("we," "our," or "us"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Service. We reserve the right to modify these Terms at any time, and your continued use of the Service constitutes acceptance of any changes.
+          </p>
+        </div>
+
+        <!-- 2. Description of Service -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">2. Description of Service</h2>
+          <p class="text-text-secondary leading-relaxed mb-3">
+            ClosetFitApp is an AI-powered wardrobe management and virtual try-on platform that provides:
+          </p>
+          <ul class="space-y-2 text-text-secondary">
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Clothing cataloging through photo recognition</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>AI-generated outfit suggestions based on your wardrobe and preferences</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Virtual try-on features using computer vision technology</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Style insights and wardrobe analytics</span>
+            </li>
+          </ul>
+          <p class="text-text-secondary leading-relaxed mt-4">
+            The Service is provided "as is" and "as available." We reserve the right to modify, suspend, or discontinue any part of the Service at any time without prior notice.
+          </p>
+        </div>
+
+        <!-- 3. User Accounts -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">3. User Accounts</h2>
+          <p class="text-text-secondary leading-relaxed mb-3">
+            To access certain features of the Service, you must create an account. You agree to:
+          </p>
+          <ul class="space-y-2 text-text-secondary">
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Provide accurate, current, and complete information during registration</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Maintain the security of your password and account</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Notify us immediately of any unauthorized access or use of your account</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Accept responsibility for all activities that occur under your account</span>
+            </li>
+          </ul>
+          <p class="text-text-secondary leading-relaxed mt-4">
+            You must be at least 13 years old to create an account. If you are under 18, you must have parental or guardian consent.
+          </p>
+        </div>
+
+        <!-- 4. User Content -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">4. User Content</h2>
+          <p class="text-text-secondary leading-relaxed mb-3">
+            You retain ownership of all content you upload to the Service, including photos of clothing items ("User Content"). By uploading User Content, you grant us a limited, non-exclusive, worldwide license to:
+          </p>
+          <ul class="space-y-2 text-text-secondary">
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Process and analyze your photos to provide the Service</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Store your content securely on our servers</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Use anonymized, aggregated data to improve our AI models</span>
+            </li>
+          </ul>
+          <p class="text-text-secondary leading-relaxed mt-4">
+            This license terminates when you delete your content or account. You are responsible for ensuring you have the right to upload any content you provide.
+          </p>
+        </div>
+
+        <!-- 5. Intellectual Property -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">5. Intellectual Property</h2>
+          <p class="text-text-secondary leading-relaxed">
+            The Service and its original content (excluding User Content), features, and functionality are and will remain the exclusive property of ClosetFitApp and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used in connection with any product or service without our prior written consent.
+          </p>
+        </div>
+
+        <!-- 6. Prohibited Uses -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">6. Prohibited Uses</h2>
+          <p class="text-text-secondary leading-relaxed mb-3">
+            You agree not to use the Service to:
+          </p>
+          <ul class="space-y-2 text-text-secondary">
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Violate any applicable law or regulation</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Upload content that infringes on the intellectual property rights of others</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Attempt to reverse-engineer, decompile, or extract source code from the Service</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Use automated systems (bots, scrapers) to access the Service without our permission</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Upload inappropriate, offensive, or illegal content</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Interfere with or disrupt the Service or its infrastructure</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 7. Subscription & Payments -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">7. Subscription & Payments</h2>
+          <p class="text-text-secondary leading-relaxed mb-3">
+            Some features of the Service require a paid subscription. By subscribing, you agree that:
+          </p>
+          <ul class="space-y-2 text-text-secondary">
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Subscriptions automatically renew unless cancelled before the renewal date</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>You authorize us to charge the payment method on file for recurring fees</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Prices may change with 30 days advance notice</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-champagne mt-1.5 shrink-0">&#8226;</span>
+              <span>Refunds are handled in accordance with the applicable app store policies</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 8. Limitation of Liability -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">8. Limitation of Liability</h2>
+          <p class="text-text-secondary leading-relaxed">
+            To the maximum extent permitted by law, ClosetFitApp and its directors, employees, partners, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or use, arising out of or in connection with your use of the Service. Our total liability for any claims arising from the Service shall not exceed the amount you paid us in the twelve (12) months preceding the claim.
+          </p>
+        </div>
+
+        <!-- 9. Disclaimer of Warranties -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">9. Disclaimer of Warranties</h2>
+          <p class="text-text-secondary leading-relaxed">
+            The Service is provided on an "as is" and "as available" basis without any warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or secure. AI-generated outfit suggestions are recommendations only and should not be relied upon as professional styling advice.
+          </p>
+        </div>
+
+        <!-- 10. Termination -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">10. Termination</h2>
+          <p class="text-text-secondary leading-relaxed">
+            We may terminate or suspend your access to the Service immediately, without prior notice, for any reason, including if you breach these Terms. Upon termination, your right to use the Service will cease immediately. You may delete your account at any time through the app settings. Upon account deletion, we will delete your personal data and uploaded photos within 30 days, except where retention is required by law.
+          </p>
+        </div>
+
+        <!-- 11. Governing Law -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">11. Governing Law</h2>
+          <p class="text-text-secondary leading-relaxed">
+            These Terms shall be governed by and construed in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions. Any disputes arising under these Terms shall be resolved in the state or federal courts located in San Francisco County, California.
+          </p>
+        </div>
+
+        <!-- 12. Severability -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">12. Severability</h2>
+          <p class="text-text-secondary leading-relaxed">
+            If any provision of these Terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary so that these Terms shall otherwise remain in full force and effect.
+          </p>
+        </div>
+
+        <!-- 13. Contact Us -->
+        <div>
+          <h2 class="text-2xl font-display font-bold text-text-primary mb-4">13. Contact Us</h2>
+          <p class="text-text-secondary leading-relaxed mb-4">
+            If you have any questions about these Terms, please contact us:
+          </p>
+          <div class="glass rounded-xl p-6">
+            <div class="space-y-2 text-text-secondary">
+              <p><strong class="text-text-primary">ClosetFitApp</strong></p>
+              <p>Email: <a href="mailto:legal@closetfitapp.com" class="text-champagne hover:text-champagne-light transition-colors underline">legal@closetfitapp.com</a></p>
+              <p>Website: <a href="https://closetfitapp.com" class="text-champagne hover:text-champagne-light transition-colors underline">closetfitapp.com</a></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</PageLayout>

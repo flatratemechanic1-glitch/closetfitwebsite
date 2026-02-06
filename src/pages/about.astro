@@ -1,0 +1,207 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { organizationSchema } from '../lib/schema';
+import MagneticButton from '../components/ui/MagneticButton.tsx';
+
+const schema = organizationSchema();
+
+const team = [
+  {
+    name: 'Jordan Lee',
+    role: 'Founder & CEO',
+    bio: 'Fashion tech entrepreneur with 10+ years building consumer products.',
+    gradient: 'from-champagne to-champagne-light',
+  },
+  {
+    name: 'Mia Chen',
+    role: 'CTO',
+    bio: 'Former ML engineer at a leading fashion platform. Computer vision specialist.',
+    gradient: 'from-lavender to-lavender-light',
+  },
+  {
+    name: 'Alex Rivera',
+    role: 'Head of Design',
+    bio: 'Award-winning product designer passionate about inclusive fashion experiences.',
+    gradient: 'from-coral to-coral-light',
+  },
+  {
+    name: 'Sam Patel',
+    role: 'Head of AI',
+    bio: 'PhD in computer vision. Specializes in real-time image generation and style transfer.',
+    gradient: 'from-lavender to-champagne',
+  },
+];
+
+const values = [
+  {
+    icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    title: 'Fashion for Everyone',
+    description: 'We believe great style should not require a personal stylist. AI makes it accessible to all.',
+  },
+  {
+    icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: 'Privacy First',
+    description: 'Your data is yours. End-to-end encryption, no third-party sharing, delete anytime.',
+  },
+  {
+    icon: `<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+    title: 'Sustainability',
+    description: 'Wear more of what you own. Reduce fast fashion waste by making smarter wardrobe decisions.',
+  },
+];
+---
+
+<PageLayout
+  title="About ClosetFitApp — Our Mission & Story"
+  description="Learn about the team behind ClosetFitApp. Our mission is to help everyone dress smarter using AI-powered wardrobe management and virtual try-on."
+  heading="About ClosetFit"
+  subheading="We are building the future of personal style — powered by AI, designed for everyone."
+  schema={schema}
+>
+  <!-- Our Mission -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+            Our Mission
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-6 leading-tight">
+            Help everyone
+            <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+              dress with confidence
+            </span>
+          </h2>
+          <p class="text-text-secondary leading-relaxed mb-4">
+            The average person owns over 100 clothing items but only wears 20% of them regularly. That is hundreds of dollars sitting unused in closets around the world.
+          </p>
+          <p class="text-text-secondary leading-relaxed">
+            ClosetFitApp exists to change that. We combine computer vision, AI styling, and virtual try-on technology to help you see and wear everything you own. No more "I have nothing to wear" — just open the app and get dressed.
+          </p>
+        </div>
+        <div class="glass rounded-2xl p-8 sm:p-10">
+          <div class="space-y-8">
+            <div>
+              <div class="text-4xl sm:text-5xl font-display font-bold text-champagne mb-2">80%</div>
+              <p class="text-text-secondary">of clothes go unworn each month</p>
+            </div>
+            <div>
+              <div class="text-4xl sm:text-5xl font-display font-bold text-lavender mb-2">$1,800</div>
+              <p class="text-text-secondary">average annual clothing spend</p>
+            </div>
+            <div>
+              <div class="text-4xl sm:text-5xl font-display font-bold text-coral mb-2">3x</div>
+              <p class="text-text-secondary">more outfits discovered with ClosetFit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Started -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+        How It Started
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-6">
+        Born from a
+        <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+          full closet
+        </span>
+        and nothing to wear
+      </h2>
+      <div class="text-text-secondary leading-relaxed space-y-4 text-left sm:text-center">
+        <p>
+          It started with a familiar frustration: a closet packed with clothes and the daily feeling of having nothing to wear. Our founder spent more time staring at hangers than getting ready.
+        </p>
+        <p>
+          After experimenting with spreadsheets, Pinterest boards, and outfit planning apps that never quite worked, the idea for ClosetFitApp was born — an app that could see your clothes, understand your style, and show you how outfits look before you put them on.
+        </p>
+        <p>
+          Today, we are a small but passionate team of engineers, designers, and fashion enthusiasts building at the intersection of AI and personal style. We are in private beta and launching publicly in 2026.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Technology -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-lavender mb-6">
+          The Technology
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4">
+          Powered by
+          <span class="bg-gradient-to-r from-lavender to-lavender-light bg-clip-text text-transparent">
+            cutting-edge AI
+          </span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {values.map((value) => (
+          <div class="glass rounded-xl p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center glass text-champagne mx-auto mb-4" aria-hidden="true" set:html={value.icon} />
+            <h3 class="font-display font-semibold text-text-primary mb-2">{value.title}</h3>
+            <p class="text-text-secondary text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="relative py-16 sm:py-24 px-4" aria-labelledby="team-heading">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+          The Team
+        </span>
+        <h2
+          id="team-heading"
+          class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4"
+        >
+          Meet the people building
+          <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+            ClosetFit
+          </span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((member) => (
+          <div class="glass rounded-xl p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
+            <!-- Avatar placeholder -->
+            <div class={`w-20 h-20 rounded-full mx-auto mb-4 bg-gradient-to-br ${member.gradient} opacity-60`} aria-hidden="true"></div>
+            <h3 class="font-display font-semibold text-text-primary">{member.name}</h3>
+            <p class="text-champagne text-sm mb-2">{member.role}</p>
+            <p class="text-text-muted text-sm leading-relaxed">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4">
+        Join us on this journey
+      </h2>
+      <p class="text-text-secondary text-lg mb-8">
+        Be among the first to experience the future of personal styling.
+      </p>
+      <MagneticButton client:visible>
+        <a
+          href="/waitlist"
+          class="inline-block px-8 py-3 bg-coral text-bg font-semibold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px]"
+        >
+          Get Early Access
+        </a>
+      </MagneticButton>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,79 @@
+---
+import MagneticButton from '../ui/MagneticButton.tsx';
+---
+
+<section class="relative py-24 sm:py-32 px-4 overflow-hidden" aria-labelledby="final-cta-heading">
+  <!-- Aurora gradient mesh background -->
+  <div
+    class="absolute inset-0"
+    style="background:
+      radial-gradient(ellipse 900px 900px at 30% 40%, #4E2A6B 0%, transparent 70%),
+      radial-gradient(ellipse 800px 800px at 70% 50%, #2E2E78 0%, transparent 70%),
+      radial-gradient(ellipse 700px 700px at 50% 70%, rgba(201, 168, 124, 0.30) 0%, transparent 70%),
+      #09090B;
+      background-size: 200% 200%;
+      animation: aurora-drift 20s ease-in-out infinite;"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Grain texture overlay -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Floating particles -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="absolute w-2 h-2 bg-champagne/20 rounded-full animate-[float_6s_ease-in-out_infinite]" style="top: 15%; left: 12%;"></div>
+    <div class="absolute w-1 h-1 bg-lavender/15 rounded-full animate-[float_8s_ease-in-out_1s_infinite]" style="top: 55%; left: 85%;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-champagne/15 rounded-full animate-[float_7s_ease-in-out_2s_infinite]" style="top: 35%; left: 65%;"></div>
+    <div class="absolute w-1 h-1 bg-lavender/10 rounded-full animate-[float_9s_ease-in-out_0.5s_infinite]" style="top: 75%; left: 20%;"></div>
+    <div class="absolute w-2 h-2 bg-champagne/10 rounded-full animate-[float_7s_ease-in-out_3s_infinite]" style="top: 25%; left: 78%;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-coral/10 rounded-full animate-[float_8s_ease-in-out_4s_infinite]" style="top: 65%; left: 35%;"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-3xl mx-auto text-center">
+    <h2
+      id="final-cta-heading"
+      class="text-4xl sm:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-6 leading-[1.1]"
+    >
+      Ready to Wear
+      <br />
+      <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+        Everything You Own?
+      </span>
+    </h2>
+
+    <p class="text-lg sm:text-xl text-text-secondary max-w-xl mx-auto mb-10 leading-relaxed">
+      Join thousands of early adopters reimagining their wardrobe with AI. Get early access — completely free.
+    </p>
+
+    <!-- Email capture form -->
+    <form
+      class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-4"
+      action="#"
+      method="POST"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+        class="flex-1 px-4 py-3 glass rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-champagne focus:ring-1 focus:ring-champagne transition-colors min-h-[44px] bg-transparent"
+      />
+      <MagneticButton client:visible>
+        <button
+          type="submit"
+          class="px-8 py-3 bg-coral text-bg font-semibold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px] animate-[glow-pulse_3s_ease-in-out_infinite] whitespace-nowrap w-full sm:w-auto"
+        >
+          Get Early Access
+        </button>
+      </MagneticButton>
+    </form>
+    <p class="text-sm text-text-muted">
+      No spam, ever. Unsubscribe anytime.
+    </p>
+  </div>
+</section>

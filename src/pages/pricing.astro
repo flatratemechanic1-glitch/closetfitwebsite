@@ -1,0 +1,105 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PricingSection from '../components/home/PricingSection.astro';
+import { productSchema, faqSchema } from '../lib/schema';
+
+const pricingFaqs = [
+  {
+    question: 'Can I switch plans at any time?',
+    answer: 'Yes! You can upgrade or downgrade your plan at any time. When upgrading, you get immediate access to new features. When downgrading, your current plan stays active until the end of the billing period.',
+  },
+  {
+    question: 'Is there a free trial for Pro and Premium?',
+    answer: 'Absolutely. Every new user gets a 14-day free trial of Pro features. No credit card required. If you love it, upgrade — otherwise you will seamlessly move to the Free plan.',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer: 'We accept all major credit and debit cards (Visa, Mastercard, Amex), Apple Pay, Google Pay, and PayPal. All payments are processed securely through Stripe.',
+  },
+  {
+    question: 'Do you offer student or educator discounts?',
+    answer: 'Yes! Students and educators get 50% off Pro and Premium plans. Verify your status through our partner SheerID to unlock the discount.',
+  },
+  {
+    question: 'What happens to my data if I downgrade?',
+    answer: 'Your wardrobe data is always safe. If you downgrade from Pro/Premium to Free, items beyond the 50-item limit are archived — not deleted. Upgrade again anytime to restore full access.',
+  },
+  {
+    question: 'Is there a refund policy?',
+    answer: 'We offer a 30-day money-back guarantee on all paid plans. If you are not satisfied, contact support for a full refund — no questions asked.',
+  },
+];
+
+const schemas = [
+  productSchema(),
+  faqSchema(pricingFaqs),
+];
+---
+
+<PageLayout
+  title="Pricing — Plans for Every Wardrobe | ClosetFitApp"
+  description="Choose the perfect ClosetFitApp plan. Start free, upgrade to Pro or Premium for AI styling, capsule builder, and more. Cancel anytime."
+  heading="Simple, Transparent Pricing"
+  subheading="Start free, upgrade when you are ready. No hidden fees, cancel anytime."
+  schema={schemas}
+>
+  <!-- Reuse the homepage pricing component -->
+  <PricingSection />
+
+  <!-- Pricing FAQ -->
+  <section class="relative py-16 sm:py-24 px-4" aria-labelledby="pricing-faq-heading">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <h2
+          id="pricing-faq-heading"
+          class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4"
+        >
+          Pricing
+          <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+            FAQ
+          </span>
+        </h2>
+      </div>
+
+      <div class="space-y-3" role="list">
+        {pricingFaqs.map((faq) => (
+          <details
+            class="group glass rounded-xl overflow-hidden transition-all duration-300 hover:border-champagne/20"
+            role="listitem"
+          >
+            <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none select-none min-h-[44px] text-text-primary font-medium text-left hover:text-champagne transition-colors duration-200 [&::-webkit-details-marker]:hidden">
+              <span class="text-base sm:text-lg">{faq.question}</span>
+              <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center text-text-muted group-open:text-champagne transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </span>
+            </summary>
+            <div class="pricing-faq-content">
+              <div class="px-6 pb-5 text-text-secondary leading-relaxed">
+                {faq.answer}
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  details .pricing-faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  details[open] .pricing-faq-content {
+    grid-template-rows: 1fr;
+  }
+
+  details .pricing-faq-content > div {
+    overflow: hidden;
+  }
+</style>

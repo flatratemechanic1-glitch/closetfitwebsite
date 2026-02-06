@@ -1,0 +1,179 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { productSchema } from '../lib/schema';
+import MagneticButton from '../components/ui/MagneticButton.tsx';
+
+const schema = productSchema();
+
+const features = [
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5"/><path d="M17.5 7h.01"/></svg>`,
+    title: 'Smart Cataloging',
+    description: 'Point your camera at any clothing item and our AI instantly identifies it — type, color, brand, pattern, season, and material. Your entire wardrobe digitized in minutes, not hours.',
+    color: 'champagne',
+    isAI: false,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l-4 4h3v5h2V7h3l-4-4z"/><path d="M8 11c-3 0-5 2-5 5v2h18v-2c0-3-2-5-5-5"/><path d="M6 18v3h12v-3"/><path d="M19 4l.8-.8M19 4l-.8-.8M21 6h-1.2"/></svg>`,
+    title: 'Virtual Try-On',
+    description: 'See yourself wearing any outfit combination on screen before getting dressed. Our AI rendering creates realistic previews so you know exactly how an outfit looks on you.',
+    color: 'lavender',
+    isAI: true,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 3.2 3.5.5-2.5 2.4.6 3.5L12 11l-3.1 1.6.6-3.5L7 6.7l3.5-.5L12 3z"/><path d="M5 16l.8 1.7 1.8.3-1.3 1.3.3 1.8L5 20.2l-1.6.9.3-1.8L2.4 18l1.8-.3L5 16z"/><path d="M19 14l.6 1.2 1.3.2-.9.9.2 1.3-1.2-.6-1.2.6.2-1.3-.9-.9 1.3-.2L19 14z"/></svg>`,
+    title: 'Daily Outfit Suggestions',
+    description: 'Wake up to personalized outfit picks based on your schedule, the weather, and your style profile. The more you use it, the better it understands what you love to wear.',
+    color: 'lavender',
+    isAI: true,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/><path d="M12 8a10 10 0 0 1-4-1.5M12 8a10 10 0 0 0 4-1.5"/></svg>`,
+    title: 'Weather-Based Styling',
+    description: 'Connected to real-time weather data, ClosetFit factors in temperature, rain, and humidity so you never overdress or underdress. Smart layers for every season.',
+    color: 'champagne',
+    isAI: false,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 5 4-10"/></svg>`,
+    title: 'Wardrobe Analytics',
+    description: 'See which items you wear most, which are gathering dust, and the total value of your wardrobe. Data-driven insights help you shop smarter and waste less.',
+    color: 'champagne',
+    isAI: false,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>`,
+    title: 'Capsule Wardrobe Builder',
+    description: 'Our AI analyzes your collection and builds a minimal capsule wardrobe — a curated set of versatile pieces that mix and match into dozens of outfits. Less clutter, more style.',
+    color: 'lavender',
+    isAI: true,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>`,
+    title: 'Style Calendar',
+    description: 'Plan your outfits ahead of time. Drag and drop looks onto your calendar for the week. Never stress about what to wear to an important meeting or event again.',
+    color: 'champagne',
+    isAI: false,
+  },
+  {
+    icon: `<svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+    title: 'Social Sharing & Family',
+    description: 'Share outfit ideas with friends via a private link or social media. Premium plans include family sharing for up to 4 members — everyone gets their own personalized wardrobe.',
+    color: 'champagne',
+    isAI: false,
+  },
+];
+
+const screenshots = [
+  '/screenshots/01.png',
+  '/screenshots/02.png',
+  '/screenshots/03.png',
+  '/screenshots/04.png',
+  '/screenshots/05.png',
+  '/screenshots/06.png',
+  '/screenshots/07.png',
+  '/screenshots/08.png',
+];
+---
+
+<PageLayout
+  title="Features — AI Wardrobe Management | ClosetFitApp"
+  description="Explore ClosetFitApp features: smart cataloging, virtual try-on, AI outfit suggestions, wardrobe analytics, capsule builder, and more."
+  heading="Every Feature You Need"
+  subheading="From smart cataloging to AI-powered outfit suggestions — ClosetFitApp gives you the tools to dress better, faster, and smarter."
+  schema={schema}
+>
+  <!-- Features grid -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {features.map((feature) => (
+          <div
+            class:list={[
+              'group p-6 sm:p-8 glass rounded-2xl transition-all duration-300 hover:-translate-y-1',
+              feature.isAI ? 'border-l-2 border-l-lavender hover:shadow-glow-lavender' : 'hover:shadow-glow-champagne',
+            ]}
+          >
+            <div class="flex items-start gap-4">
+              <!-- Icon -->
+              <div
+                class:list={[
+                  'flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center glass',
+                  feature.color === 'lavender' ? 'text-lavender' : 'text-champagne',
+                ]}
+                aria-hidden="true"
+                set:html={feature.icon}
+              />
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h3 class="text-lg sm:text-xl font-display font-semibold text-text-primary">
+                    {feature.title}
+                  </h3>
+                  {feature.isAI && (
+                    <span class="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-lavender bg-lavender/10 rounded-full border border-lavender/20">
+                      AI
+                    </span>
+                  )}
+                </div>
+                <p class="text-text-secondary leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots showcase -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-text-primary mb-4">
+          See It in
+          <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+            Action
+          </span>
+        </h2>
+        <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+          A closer look at the ClosetFitApp experience.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+        {screenshots.map((src, i) => (
+          <div class="glass rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
+            <img
+              src={src}
+              alt={`ClosetFitApp screenshot ${i + 1}`}
+              class="w-full h-auto"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative py-16 sm:py-24 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-text-primary mb-4">
+        Ready to get started?
+      </h2>
+      <p class="text-text-secondary text-lg mb-8">
+        Join the waitlist and be among the first to experience every feature.
+      </p>
+      <MagneticButton client:visible>
+        <a
+          href="/waitlist"
+          class="inline-block px-8 py-3 bg-coral text-bg font-semibold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px]"
+        >
+          Get Early Access
+        </a>
+      </MagneticButton>
+    </div>
+  </section>
+</PageLayout>

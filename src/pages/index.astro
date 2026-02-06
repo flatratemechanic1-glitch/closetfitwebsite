@@ -8,6 +8,8 @@ import HowItWorks from '../components/home/HowItWorks.tsx';
 import FeaturesSection from '../components/home/FeaturesSection.astro';
 import PricingSection from '../components/home/PricingSection.astro';
 import TestimonialsSection from '../components/home/TestimonialsSection.astro';
+import FAQSection from '../components/home/FAQSection.astro';
+import FinalCTA from '../components/home/FinalCTA.astro';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -317,5 +319,17 @@ const howItWorksSteps = [
        CSS-only auto-sliding marquee
        ============================================ -->
   <TestimonialsSection />
+
+  <!-- ============================================
+       FAQ SECTION
+       Accordion with FAQPage JSON-LD schema
+       ============================================ -->
+  <FAQSection />
+
+  <!-- ============================================
+       FINAL CTA SECTION
+       Aurora gradient + email capture
+       ============================================ -->
+  <FinalCTA />
 
 </BaseLayout>

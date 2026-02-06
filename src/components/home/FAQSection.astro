@@ -1,0 +1,108 @@
+---
+import { faqSchema } from '../../lib/schema';
+
+const faqs = [
+  {
+    question: 'What is ClosetFitApp?',
+    answer: 'ClosetFitApp is an AI-powered wardrobe management and virtual try-on app. Photograph your clothes, and our AI organizes everything, suggests daily outfits, and lets you see yourself wearing them — digitally — before getting dressed.',
+  },
+  {
+    question: 'How does AI styling work?',
+    answer: 'Our AI analyzes your wardrobe by color, pattern, season, and style. It learns your preferences over time, considers the weather and your calendar, and generates personalized outfit combinations each morning — complete with virtual try-on previews.',
+  },
+  {
+    question: 'What devices are supported?',
+    answer: 'ClosetFitApp will be available on iOS and Android at launch. We are also developing a companion web dashboard so you can manage your wardrobe from any device with a browser.',
+  },
+  {
+    question: 'Is it free to use?',
+    answer: 'Yes! ClosetFitApp offers a generous free tier with up to 50 items, basic categorization, and manual outfit logging. Pro and Premium plans unlock AI outfit suggestions, weather-based styling, capsule builder, and more.',
+  },
+  {
+    question: 'How secure is my data?',
+    answer: 'Your privacy is our top priority. All photos are encrypted end-to-end, stored securely in the cloud, and never shared with third parties. You can delete your data at any time. We comply with GDPR, CCPA, and other major privacy regulations.',
+  },
+  {
+    question: 'Can I share outfits with friends?',
+    answer: 'Absolutely. You can share outfit ideas directly with friends via a private link, social media, or messaging apps. Premium users also get family sharing with up to 4 members on one account.',
+  },
+  {
+    question: 'How accurate are the AI suggestions?',
+    answer: 'Our AI improves with every interaction. Most users report highly relevant suggestions within the first week. The more you rate and wear suggested outfits, the better it understands your personal style.',
+  },
+  {
+    question: 'When does it launch?',
+    answer: 'We are currently in private beta and plan to launch publicly in 2026. Join the waitlist to get early access and be among the first to experience AI-powered wardrobe management.',
+  },
+];
+
+const schema = faqSchema(faqs);
+---
+
+<section class="relative py-16 sm:py-24 px-4" aria-labelledby="faq-heading">
+  <div class="max-w-3xl mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-12 sm:mb-16">
+      <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+        FAQ
+      </span>
+      <h2
+        id="faq-heading"
+        class="text-3xl sm:text-5xl font-display font-bold text-text-primary mb-4"
+      >
+        Got
+        <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+          questions?
+        </span>
+      </h2>
+      <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+        Everything you need to know about ClosetFitApp.
+      </p>
+    </div>
+
+    <!-- Accordion -->
+    <div class="space-y-3" role="list">
+      {faqs.map((faq) => (
+        <details
+          class="group glass rounded-xl overflow-hidden transition-all duration-300 hover:border-champagne/20"
+          role="listitem"
+        >
+          <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none select-none min-h-[44px] text-text-primary font-medium text-left hover:text-champagne transition-colors duration-200 [&::-webkit-details-marker]:hidden">
+            <span class="text-base sm:text-lg">{faq.question}</span>
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center text-text-muted group-open:text-champagne transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </span>
+          </summary>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-text-secondary leading-relaxed">
+              {faq.answer}
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <!-- FAQ JSON-LD Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</section>
+
+<style>
+  /* Smooth height transition for details/summary accordion */
+  details .faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  details[open] .faq-content {
+    grid-template-rows: 1fr;
+  }
+
+  details .faq-content > div {
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  subheading?: string;
+  schema?: object | object[];
+}
+
+const { title, description, heading, subheading, schema } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <!-- Page header with aurora background -->
+  <section class="relative pt-32 pb-16 sm:pt-40 sm:pb-20 px-4 overflow-hidden">
+    <!-- Subtle aurora gradient -->
+    <div
+      class="absolute inset-0"
+      style="background:
+        radial-gradient(ellipse 600px 400px at 30% 50%, rgba(78, 42, 107, 0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 70% 40%, rgba(46, 46, 120, 0.3) 0%, transparent 70%),
+        #09090B;"
+      aria-hidden="true"
+    ></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-bold text-text-primary mb-4 leading-[1.1]">
+        {heading}
+      </h1>
+      {subheading && (
+        <p class="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+          {subheading}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <slot />
+</BaseLayout>

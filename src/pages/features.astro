@@ -2,6 +2,8 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { productSchema } from '../lib/schema';
 import MagneticButton from '../components/ui/MagneticButton.tsx';
+import { Image } from 'astro:assets';
+import { screenshots } from '@/lib/screenshots';
 
 const schema = productSchema();
 
@@ -62,17 +64,6 @@ const features = [
     color: 'champagne',
     isAI: false,
   },
-];
-
-const screenshots = [
-  '/screenshots/01.png',
-  '/screenshots/02.png',
-  '/screenshots/03.png',
-  '/screenshots/04.png',
-  '/screenshots/05.png',
-  '/screenshots/06.png',
-  '/screenshots/07.png',
-  '/screenshots/08.png',
 ];
 ---
 
@@ -142,14 +133,17 @@ const screenshots = [
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-        {screenshots.map((src, i) => (
+        {screenshots.map((shot) => (
           <div class="glass rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
-            <img
-              src={src}
-              alt={`ClosetFitApp screenshot ${i + 1}`}
-              class="w-full h-auto"
+            <Image
+              src={shot.image}
+              alt={shot.alt}
+              width={320}
+              format="webp"
+              quality={80}
               loading="lazy"
               decoding="async"
+              class="w-full h-auto"
             />
           </div>
         ))}

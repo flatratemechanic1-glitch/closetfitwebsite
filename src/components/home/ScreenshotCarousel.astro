@@ -1,16 +1,8 @@
 ---
 // Auto-scrolling screenshot marquee — CSS-only, zero JS
 // Infinite loop with pause on hover
-const screenshots = [
-  { src: '/screenshots/01.png', alt: 'ClosetFit app — wardrobe overview screen' },
-  { src: '/screenshots/02.png', alt: 'ClosetFit app — outfit suggestions screen' },
-  { src: '/screenshots/03.png', alt: 'ClosetFit app — AI styling screen' },
-  { src: '/screenshots/04.png', alt: 'ClosetFit app — clothing catalog screen' },
-  { src: '/screenshots/05.png', alt: 'ClosetFit app — daily outfit screen' },
-  { src: '/screenshots/06.png', alt: 'ClosetFit app — style analysis screen' },
-  { src: '/screenshots/07.png', alt: 'ClosetFit app — wardrobe stats screen' },
-  { src: '/screenshots/08.png', alt: 'ClosetFit app — outfit calendar screen' },
-];
+import { Image } from 'astro:assets';
+import { screenshots } from '@/lib/screenshots';
 ---
 
 <section class="relative py-16 sm:py-24 overflow-hidden">
@@ -35,9 +27,12 @@ const screenshots = [
       {screenshots.map((shot) => (
         <div class="marquee-item">
           <div class="phone-frame glass rounded-[32px] overflow-hidden shadow-lg transition-all duration-300 hover:shadow-glow-champagne hover:-translate-y-1">
-            <img
-              src={shot.src}
+            <Image
+              src={shot.image}
               alt={shot.alt}
+              width={280}
+              format="webp"
+              quality={80}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover"
@@ -49,9 +44,12 @@ const screenshots = [
       {screenshots.map((shot) => (
         <div class="marquee-item" aria-hidden="true">
           <div class="phone-frame glass rounded-[32px] overflow-hidden shadow-lg transition-all duration-300 hover:shadow-glow-champagne hover:-translate-y-1">
-            <img
-              src={shot.src}
+            <Image
+              src={shot.image}
               alt=""
+              width={280}
+              format="webp"
+              quality={80}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover"

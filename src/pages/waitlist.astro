@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WaitlistForm from '../components/ui/WaitlistForm.tsx';
 import { organizationSchema, breadcrumbSchema } from '../lib/schema';
 
 const schema = [
@@ -77,29 +78,12 @@ const benefits = [
       </p>
 
       <!-- Email Form -->
-      <form class="max-w-md mx-auto mb-12" action="#" method="POST">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <label for="waitlist-email" class="sr-only">Email address</label>
-          <input
-            type="email"
-            id="waitlist-email"
-            name="email"
-            required
-            placeholder="you@email.com"
-            class="flex-1 px-5 py-3.5 bg-surface-solid border border-border rounded-xl text-text-primary placeholder:text-text-muted focus:outline-none focus:border-champagne focus:ring-1 focus:ring-champagne transition-colors duration-200 min-h-[44px]"
-            autocomplete="email"
-          />
-          <button
-            type="submit"
-            class="px-6 py-3.5 bg-coral text-bg font-bold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px] whitespace-nowrap"
-          >
-            Join Waitlist
-          </button>
-        </div>
-        <p class="text-text-muted text-xs mt-3">
+      <div class="max-w-md mx-auto mb-12">
+        <WaitlistForm client:visible buttonText="Join Waitlist" />
+        <p class="text-text-muted text-xs mt-3 text-center">
           No spam. Unsubscribe anytime. Read our <a href="/privacy" class="text-champagne hover:text-champagne-light transition-colors underline">privacy policy</a>.
         </p>
-      </form>
+      </div>
 
       <!-- Benefits List -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">

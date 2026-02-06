@@ -5,7 +5,9 @@ import {
   useTransform,
   motion,
 } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useReducedMotion } from '@/lib/hooks';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 interface Props {
   end: number;
@@ -22,7 +24,7 @@ export default function AnimatedCounter({
 }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const { reducedMotion } = useReducedMotion();
 
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, {
@@ -33,12 +35,6 @@ export default function AnimatedCounter({
   const display = useTransform(springValue, (v) =>
     `${prefix}${Math.round(v).toLocaleString()}${suffix}`
   );
-
-  useEffect(() => {
-    setReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -58,5 +54,9 @@ export default function AnimatedCounter({
     );
   }
 
-  return <motion.span ref={ref} className={className}>{display}</motion.span>;
+  return (
+    <ErrorBoundary fallback={<span className={className}>{prefix}{end.toLocaleString()}{suffix}</span>}>
+      <motion.span ref={ref} className={className}>{display}</motion.span>
+    </ErrorBoundary>
+  );
 }

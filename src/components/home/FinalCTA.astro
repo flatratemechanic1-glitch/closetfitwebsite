@@ -1,5 +1,5 @@
 ---
-import MagneticButton from '../ui/MagneticButton.tsx';
+import WaitlistForm from '../ui/WaitlistForm.tsx';
 ---
 
 <section class="relative py-24 sm:py-32 px-4 overflow-hidden" aria-labelledby="final-cta-heading">
@@ -51,27 +51,9 @@ import MagneticButton from '../ui/MagneticButton.tsx';
     </p>
 
     <!-- Email capture form -->
-    <form
-      class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-4"
-      action="#"
-      method="POST"
-    >
-      <input
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        required
-        class="flex-1 px-4 py-3 glass rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-champagne focus:ring-1 focus:ring-champagne transition-colors min-h-[44px] bg-transparent"
-      />
-      <MagneticButton client:visible>
-        <button
-          type="submit"
-          class="px-8 py-3 bg-coral text-bg font-semibold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px] animate-[glow-pulse_3s_ease-in-out_infinite] whitespace-nowrap w-full sm:w-auto"
-        >
-          Get Early Access
-        </button>
-      </MagneticButton>
-    </form>
+    <div class="max-w-md mx-auto mb-4">
+      <WaitlistForm client:visible buttonText="Get Early Access" />
+    </div>
     <p class="text-sm text-text-muted">
       No spam, ever. Unsubscribe anytime.
     </p>

@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useReducedMotion } from '@/lib/hooks';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -96,18 +98,16 @@ function ReducedMotionFallback({ steps }: Props) {
 export default function HowItWorks({ steps }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  }, []);
+  const ctxRef = useRef<ReturnType<typeof gsap.context> | null>(null);
+  const { mounted, reducedMotion } = useReducedMotion();
 
   useEffect(() => {
     if (!mounted || reducedMotion || !containerRef.current) return;
+
+    // Prevent double-initialization in StrictMode
+    if (ctxRef.current) {
+      ctxRef.current.revert();
+    }
 
     const ctx = gsap.context(() => {
       const timeline = gsap.timeline({
@@ -134,13 +134,19 @@ export default function HowItWorks({ steps }: Props) {
       });
     }, containerRef);
 
-    return () => ctx.revert();
+    ctxRef.current = ctx;
+
+    return () => {
+      ctx.revert();
+      ctxRef.current = null;
+    };
   }, [mounted, reducedMotion, steps]);
 
   if (!mounted) return null;
   if (reducedMotion) return <ReducedMotionFallback steps={steps} />;
 
   return (
+    <ErrorBoundary fallback={<ReducedMotionFallback steps={steps} />}>
     <section ref={sectionRef} className="relative" aria-labelledby="how-heading">
       {/* Section header — above pinned area */}
       <div className="text-center py-16 sm:py-24 px-4">
@@ -233,5 +239,6 @@ export default function HowItWorks({ steps }: Props) {
         </div>
       </div>
     </section>
+    </ErrorBoundary>
   );
 }

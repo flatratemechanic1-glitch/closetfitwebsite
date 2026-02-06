@@ -11,12 +11,12 @@ const schema = [
   ]),
 ];
 
-const screenshots = [
-  { src: '/screenshots/01.png', alt: 'ClosetFit home screen with AI outfit suggestions' },
-  { src: '/screenshots/02.png', alt: 'Virtual try-on feature showing outfit preview' },
-  { src: '/screenshots/03.png', alt: 'Wardrobe catalog with clothing items organized' },
-  { src: '/screenshots/04.png', alt: 'Daily outfit recommendations personalized by AI' },
-  { src: '/screenshots/05.png', alt: 'Style quiz results with personalized suggestions' },
+const dlScreenshots = [
+  { src: '/screenshots/01.webp', alt: 'ClosetFit home screen with AI outfit suggestions' },
+  { src: '/screenshots/02.webp', alt: 'Virtual try-on feature showing outfit preview' },
+  { src: '/screenshots/03.webp', alt: 'Wardrobe catalog with clothing items organized' },
+  { src: '/screenshots/04.webp', alt: 'Daily outfit recommendations personalized by AI' },
+  { src: '/screenshots/05.webp', alt: 'Style quiz results with personalized suggestions' },
 ];
 ---
 
@@ -44,8 +44,8 @@ const screenshots = [
   <section class="relative py-8 sm:py-16 px-4 overflow-hidden" aria-label="App screenshots">
     <div class="max-w-4xl mx-auto">
       <div class="relative flex items-center justify-center" style="height: 480px; perspective: 1200px;">
-        {screenshots.map((shot, i) => {
-          const total = screenshots.length;
+        {dlScreenshots.map((shot, i) => {
+          const total = dlScreenshots.length;
           const mid = Math.floor(total / 2);
           const offset = i - mid;
           const rotate = offset * 8;

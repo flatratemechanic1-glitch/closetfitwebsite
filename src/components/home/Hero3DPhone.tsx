@@ -1,6 +1,8 @@
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Environment, RoundedBox } from '@react-three/drei';
 import { useRef, Suspense, useEffect, useState } from 'react';
+import { useReducedMotion } from '@/lib/hooks';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import * as THREE from 'three';
 
 interface Props {
@@ -8,7 +10,21 @@ interface Props {
 }
 
 function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
-  const texture = useLoader(THREE.TextureLoader, screenshotUrl);
+  const [texture, setTexture] = useState<THREE.Texture | null>(null);
+
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      screenshotUrl,
+      (tex) => setTexture(tex),
+      undefined,
+      () => setTexture(null),
+    );
+    return () => {
+      if (texture) texture.dispose();
+    };
+  }, [screenshotUrl]);
+
   return (
     <group>
       {/* Phone body */}
@@ -22,7 +38,11 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
       {/* Screen */}
       <mesh position={[0, 0, 0.065]}>
         <planeGeometry args={[1.4, 3.0]} />
-        <meshBasicMaterial map={texture} />
+        {texture ? (
+          <meshBasicMaterial map={texture} />
+        ) : (
+          <meshBasicMaterial color="#1a1a1f" />
+        )}
       </mesh>
     </group>
   );
@@ -178,19 +198,11 @@ function StaticCarouselFallback({ screenshots }: { screenshots: string[] }) {
 }
 
 export default function Hero3DPhone({ screenshots }: Props) {
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  }, []);
+  const { mounted, reducedMotion } = useReducedMotion();
 
   if (!mounted) {
     return (
-      <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]">
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
         <PhonePlaceholder />
       </div>
     );
@@ -198,26 +210,28 @@ export default function Hero3DPhone({ screenshots }: Props) {
 
   if (reducedMotion) {
     return (
-      <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]">
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
         <StaticCarouselFallback screenshots={screenshots} />
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[400px] sm:h-[500px] lg:h-[600px]" style={{ cursor: 'grab' }}>
-      <Suspense fallback={<PhonePlaceholder />}>
-        <Canvas
-          gl={{ alpha: true, antialias: true }}
-          camera={{ position: [0, 1, 12], fov: 40 }}
-          style={{ background: 'transparent' }}
-        >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 5, 5]} intensity={0.6} />
-          <PhoneCarousel screenshots={screenshots} />
-          <Environment preset="city" />
-        </Canvas>
-      </Suspense>
-    </div>
+    <ErrorBoundary fallback={<div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]"><PhonePlaceholder /></div>}>
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]" style={{ cursor: 'grab' }}>
+        <Suspense fallback={<PhonePlaceholder />}>
+          <Canvas
+            gl={{ alpha: true, antialias: true }}
+            camera={{ position: [0, 0.8, 10.5], fov: 42 }}
+            style={{ background: 'transparent' }}
+          >
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[5, 5, 5]} intensity={0.6} />
+            <PhoneCarousel screenshots={screenshots} />
+            <Environment preset="city" />
+          </Canvas>
+        </Suspense>
+      </div>
+    </ErrorBoundary>
   );
 }

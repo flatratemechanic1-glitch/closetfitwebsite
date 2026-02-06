@@ -1,10 +1,12 @@
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useReducedMotion } from '@/lib/hooks';
+import { featureIconMap } from '@/components/icons/FeatureIcons';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 interface Feature {
   title: string;
   description: string;
-  icon: string;
+  iconKey: string;
   isAI: boolean;
 }
 
@@ -12,14 +14,15 @@ interface Props {
   features: Feature[];
 }
 
-function FeatureIcon({ svg, isAI }: { svg: string; isAI: boolean }) {
+function FeatureIcon({ iconKey, isAI }: { iconKey: string; isAI: boolean }) {
+  const Icon = featureIconMap[iconKey];
   return (
     <div
       className={`w-10 h-10 rounded-xl flex items-center justify-center glass ${
         isAI ? 'text-lavender' : 'text-champagne'
       }`}
     >
-      <div className="w-6 h-6" dangerouslySetInnerHTML={{ __html: svg }} />
+      {Icon ? <Icon className="w-6 h-6" /> : null}
     </div>
   );
 }
@@ -36,7 +39,7 @@ function StaticCards({ features }: Props) {
               : 'hover:shadow-glow-champagne'
           }`}
         >
-          <FeatureIcon svg={feature.icon} isAI={feature.isAI} />
+          <FeatureIcon iconKey={feature.iconKey} isAI={feature.isAI} />
           <h3 className="font-display font-semibold text-text-primary text-lg mt-4 mb-2">
             {feature.title}
           </h3>
@@ -55,21 +58,14 @@ function StaticCards({ features }: Props) {
 }
 
 export default function FeatureCards({ features }: Props) {
-  const [mounted, setMounted] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  }, []);
+  const { mounted, reducedMotion } = useReducedMotion();
 
   if (!mounted || reducedMotion) {
     return <StaticCards features={features} />;
   }
 
   return (
+    <ErrorBoundary fallback={<StaticCards features={features} />}>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {features.map((feature, i) => (
         <motion.div
@@ -84,7 +80,7 @@ export default function FeatureCards({ features }: Props) {
               : 'hover:shadow-glow-champagne'
           }`}
         >
-          <FeatureIcon svg={feature.icon} isAI={feature.isAI} />
+          <FeatureIcon iconKey={feature.iconKey} isAI={feature.isAI} />
           <h3 className="font-display font-semibold text-text-primary text-lg mt-4 mb-2">
             {feature.title}
           </h3>
@@ -99,5 +95,6 @@ export default function FeatureCards({ features }: Props) {
         </motion.div>
       ))}
     </div>
+    </ErrorBoundary>
   );
 }

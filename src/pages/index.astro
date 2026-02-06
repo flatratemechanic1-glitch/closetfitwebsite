@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ScreenshotCarousel from '../components/home/ScreenshotCarousel.astro';
 import ProblemSection from '../components/home/ProblemSection.astro';
 import Hero3DPhone from '../components/home/Hero3DPhone.tsx';
-import MagneticButton from '../components/ui/MagneticButton.tsx';
+import WaitlistForm from '../components/ui/WaitlistForm.tsx';
 import HowItWorks from '../components/home/HowItWorks.tsx';
 import FeaturesSection from '../components/home/FeaturesSection.astro';
 import PricingSection from '../components/home/PricingSection.astro';
@@ -20,14 +20,14 @@ const schema = {
 };
 
 const heroScreenshots = [
-  '/screenshots/01.png',
-  '/screenshots/02.png',
-  '/screenshots/03.png',
-  '/screenshots/04.png',
-  '/screenshots/05.png',
-  '/screenshots/06.png',
-  '/screenshots/07.png',
-  '/screenshots/08.png',
+  '/screenshots/01.webp',
+  '/screenshots/02.webp',
+  '/screenshots/03.webp',
+  '/screenshots/04.webp',
+  '/screenshots/05.webp',
+  '/screenshots/06.webp',
+  '/screenshots/07.webp',
+  '/screenshots/08.webp',
 ];
 
 const howItWorksSteps = [
@@ -35,19 +35,19 @@ const howItWorksSteps = [
     label: 'Step 1',
     title: 'Photograph',
     description: 'Snap photos of your clothes with your phone camera. Our AI instantly recognizes each item, categorizes it, and builds your digital wardrobe in seconds.',
-    image: '/screenshots/01.png',
+    image: '/screenshots/01.webp',
   },
   {
     label: 'Step 2',
     title: 'AI Organizes',
     description: 'Our AI catalogs every piece by type, color, season, and style. It learns your preferences and identifies gaps in your wardrobe so you shop smarter.',
-    image: '/screenshots/04.png',
+    image: '/screenshots/04.webp',
   },
   {
     label: 'Step 3',
     title: 'Get Daily Outfits',
     description: 'Each morning, get personalized outfit suggestions based on your schedule, the weather, and your personal style. See yourself wearing them — virtually.',
-    image: '/screenshots/05.png',
+    image: '/screenshots/05.webp',
   },
 ];
 ---
@@ -105,7 +105,7 @@ const howItWorksSteps = [
     <!-- Hero content — 2-column layout on desktop -->
     <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-16 sm:py-20">
       <!-- Left column: Text content -->
-      <div class="flex-1 text-center lg:text-left">
+      <div class="flex-1 text-center lg:text-left lg:max-w-[540px]">
         <!-- Brand tagline -->
         <div class="mb-8 animate-[fade-up_0.6s_ease-out_both]">
           <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne">
@@ -130,29 +130,9 @@ const howItWorksSteps = [
           AI-powered virtual try-on that helps you dress smarter without the hassle.
         </p>
 
-        <!-- Email Capture Form with Magnetic CTA -->
-        <div class="animate-[fade-up_0.6s_ease-out_0.3s_both]">
-          <form
-            class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0"
-            action="#"
-            method="POST"
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-              class="flex-1 px-4 py-3 glass rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-champagne focus:ring-1 focus:ring-champagne transition-colors min-h-[44px] bg-transparent"
-            />
-            <MagneticButton client:visible>
-              <button
-                type="submit"
-                class="px-6 py-3 bg-coral text-bg font-semibold rounded-xl transition-all duration-200 hover:bg-coral-light hover:-translate-y-0.5 hover:shadow-glow-coral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral min-h-[44px] animate-[glow-pulse_3s_ease-in-out_infinite] whitespace-nowrap w-full sm:w-auto"
-              >
-                Get Early Access
-              </button>
-            </MagneticButton>
-          </form>
+        <!-- Email Capture Form -->
+        <div class="animate-[fade-up_0.6s_ease-out_0.3s_both] max-w-md mx-auto lg:mx-0">
+          <WaitlistForm client:visible buttonText="Get Early Access" />
           <p class="text-sm text-text-muted mt-3">
             Join the waitlist. No spam, ever.
           </p>
@@ -193,7 +173,7 @@ const howItWorksSteps = [
       </div>
 
       <!-- Right column: 3D Phone Mockup (hidden on small mobile) -->
-      <div class="hidden sm:block flex-shrink-0 w-full sm:w-auto lg:w-[400px] xl:w-[480px] animate-[fade-up_0.6s_ease-out_0.4s_both]">
+      <div class="hidden sm:block w-full sm:w-auto lg:w-[50%] xl:w-[55%] lg:max-w-[680px] animate-[fade-up_0.6s_ease-out_0.4s_both]">
         <Hero3DPhone client:visible screenshots={heroScreenshots} />
       </div>
     </div>

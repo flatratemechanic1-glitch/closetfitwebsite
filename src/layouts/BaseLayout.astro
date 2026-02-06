@@ -30,18 +30,9 @@ const props = Astro.props;
 <html lang="en" class="dark">
   <head>
     <SEOHead {...props} />
-    <!-- Fonts: Clash Display (Fontshare) + Inter (Google Fonts) -->
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts — preload critical weights -->
+    <link rel="preload" href="/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <ClientRouter />
   </head>
   <body class="bg-bg text-text-primary antialiased min-h-screen font-sans">

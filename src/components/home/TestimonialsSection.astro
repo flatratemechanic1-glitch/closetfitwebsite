@@ -1,50 +1,7 @@
 ---
-// CSS-only auto-sliding testimonial marquee — zero JS
-// Infinite loop with pause on hover, glassmorphism cards
-const testimonials = [
-  {
-    quote: 'I used to spend 20 minutes every morning picking an outfit. Now ClosetFit picks one in seconds and I actually look better.',
-    name: 'Aaliyah Chen',
-    role: 'Marketing Manager',
-    initials: 'AC',
-    accent: 'champagne',
-  },
-  {
-    quote: 'The weather-based styling is a game changer. I got caught in the rain for the last time before downloading this app.',
-    name: 'Jordan Rivera',
-    role: 'UX Designer',
-    initials: 'JR',
-    accent: 'lavender',
-  },
-  {
-    quote: 'I discovered I owned 14 black tops and had zero idea. The wardrobe analytics alone are worth the price of Pro.',
-    name: 'Priya Patel',
-    role: 'Software Engineer',
-    initials: 'PP',
-    accent: 'champagne',
-  },
-  {
-    quote: 'Packed for a two-week trip using the capsule builder — 12 items, 28 unique outfits. My suitcase has never been this light.',
-    name: 'Marcus Thompson',
-    role: 'Travel Blogger',
-    initials: 'MT',
-    accent: 'coral',
-  },
-  {
-    quote: 'As someone who is colorblind, the outfit suggestions have been genuinely life-changing. I finally feel confident in what I wear.',
-    name: 'Liam O\'Brien',
-    role: 'Product Manager',
-    initials: 'LO',
-    accent: 'lavender',
-  },
-  {
-    quote: 'I have a capsule wardrobe of 40 pieces and ClosetFit shows me combinations I never would have thought of. Absolutely brilliant.',
-    name: 'Sofia Andersson',
-    role: 'Graphic Designer',
-    initials: 'SA',
-    accent: 'champagne',
-  },
-];
+// CSS-only auto-sliding testimonial marquee — zero JS for animation
+// Infinite loop with pause on hover/focus, glassmorphism cards
+import { testimonials } from '@/lib/data/testimonials';
 ---
 
 <section class="relative py-16 sm:py-24 overflow-hidden" aria-labelledby="testimonials-heading">
@@ -69,12 +26,31 @@ const testimonials = [
   <div class="absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-bg to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
   <div class="absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-bg to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
 
+  <!-- Pause/Play toggle -->
+  <div class="text-center mb-6 px-4">
+    <button
+      id="testimonial-toggle"
+      type="button"
+      class="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-xs text-text-secondary hover:text-text-primary transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne"
+      aria-label="Pause testimonial carousel"
+    >
+      <svg id="testimonial-pause-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="6" y="4" width="4" height="16" rx="1" />
+        <rect x="14" y="4" width="4" height="16" rx="1" />
+      </svg>
+      <svg id="testimonial-play-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="5,3 19,12 5,21" />
+      </svg>
+      <span id="testimonial-toggle-text">Pause</span>
+    </button>
+  </div>
+
   <!-- Testimonial marquee -->
-  <div class="testimonial-container">
+  <div class="testimonial-container" role="region" aria-label="Customer testimonials" aria-roledescription="carousel">
     <div class="testimonial-track">
       {/* First set */}
       {testimonials.map((t) => (
-        <div class="testimonial-card">
+        <div class="testimonial-card" tabindex="0">
           <div class="glass rounded-2xl p-6 h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
             <blockquote class="text-text-secondary text-sm leading-relaxed flex-1 mb-4">
               <span class="text-champagne text-lg font-display leading-none" aria-hidden="true">&ldquo;</span>
@@ -137,7 +113,9 @@ const testimonials = [
     animation: marquee-scroll 50s linear infinite;
   }
 
-  .testimonial-container:hover .testimonial-track {
+  .testimonial-container:hover .testimonial-track,
+  .testimonial-container:focus-within .testimonial-track,
+  .testimonial-container.is-paused .testimonial-track {
     animation-play-state: paused;
   }
 
@@ -146,9 +124,43 @@ const testimonials = [
     width: 320px;
   }
 
+  .testimonial-card:focus-visible {
+    outline: 2px solid var(--color-champagne);
+    outline-offset: 2px;
+    border-radius: 16px;
+  }
+
   @media (min-width: 640px) {
     .testimonial-card {
       width: 380px;
     }
   }
 </style>
+
+<script is:inline>
+  (function () {
+    function initToggle() {
+      var btn = document.getElementById('testimonial-toggle');
+      var container = document.querySelector('.testimonial-container');
+      var pauseIcon = document.getElementById('testimonial-pause-icon');
+      var playIcon = document.getElementById('testimonial-play-icon');
+      var toggleText = document.getElementById('testimonial-toggle-text');
+
+      if (!btn || !container) return;
+
+      var paused = false;
+
+      btn.addEventListener('click', function () {
+        paused = !paused;
+        container.classList.toggle('is-paused', paused);
+        pauseIcon.classList.toggle('hidden', paused);
+        playIcon.classList.toggle('hidden', !paused);
+        toggleText.textContent = paused ? 'Play' : 'Pause';
+        btn.setAttribute('aria-label', paused ? 'Play testimonial carousel' : 'Pause testimonial carousel');
+      });
+    }
+
+    initToggle();
+    document.addEventListener('astro:after-swap', initToggle);
+  })();
+</script>

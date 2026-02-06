@@ -11,7 +11,7 @@ export function organizationSchema() {
     description:
       'AI-powered wardrobe management and outfit planning app',
     sameAs: [
-      'https://twitter.com/closetfitapp',
+      'https://x.com/closetfitapp',
       'https://instagram.com/closetfitapp',
       'https://tiktok.com/@closetfitapp',
     ],

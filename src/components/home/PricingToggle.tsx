@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useReducedMotion } from '@/lib/hooks';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 interface PlanFeature {
   text: string;
@@ -148,16 +150,8 @@ function PlanCard({
 }
 
 export default function PricingToggle({ plans }: Props) {
-  const [mounted, setMounted] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const { mounted, reducedMotion } = useReducedMotion();
   const [isAnnual, setIsAnnual] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
-  }, []);
 
   if (!mounted) {
     return (
@@ -178,6 +172,7 @@ export default function PricingToggle({ plans }: Props) {
   const animated = !reducedMotion;
 
   return (
+    <ErrorBoundary>
     <div>
       {/* Monthly / Annual toggle */}
       <div className="flex items-center justify-center gap-3 mb-12">
@@ -228,5 +223,6 @@ export default function PricingToggle({ plans }: Props) {
         ))}
       </div>
     </div>
+    </ErrorBoundary>
   );
 }

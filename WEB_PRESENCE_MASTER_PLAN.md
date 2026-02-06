@@ -87,11 +87,11 @@ This is what makes us jaw-dropping. Every section has purposeful motion. The sit
 
 ```
 HERO SECTION
-├── Background: Aurora gradient mesh (CSS only, ambient orbs of plum #2D1B3D, indigo #1A1A3E, warm gold rgba(201,168,124,0.12))
+├── Background: Aurora gradient mesh (CSS only, ambient orbs of plum #4E2A6B, indigo #2E2E78, warm gold rgba(201,168,124,0.30))
 ├── Particles: Canvas-based Champagne (#C9A87C) particle system, mouse-reactive
 ├── 3D Phone: React Three Fiber island — floating phone mockup showing app screenshots
 │   └── Rotates slowly on load, responds to mouse position
-├── Headline: Staggered letter reveal with GSAP ("Wear Everything You Own")
+├── Headline: Staggered letter reveal with GSAP ("Try It On / Without Putting It On")
 ├── Subhead: Fade-up on 200ms delay
 └── CTA Button: Coral (#FF6B8A) with magnetic hover effect + glow pulse
 
@@ -102,9 +102,9 @@ PROBLEM SECTION (scroll-triggered)
 
 HOW IT WORKS (scroll-triggered)
 ├── 3-step timeline: GSAP ScrollTrigger scrub animation
-│   Step 1: Phone screenshot slides in from left → "Photograph"
-│   Step 2: AI tagging visualization → "AI Organizes"
-│   Step 3: Outfit suggestion card fans out → "Get Daily Outfits"
+│   Step 1: Phone screenshot slides in from left → "Snap Your Closet"
+│   Step 2: AI tagging visualization → "Virtual Try-On"
+│   Step 3: Outfit suggestion card fans out → "Styled Daily"
 └── Each step pinned while explaining, then scrolls to next
 
 FEATURES SECTION (scroll-triggered)
@@ -395,9 +395,10 @@ From WEBSITE_STYLE_GUIDE.md:
 ### Visual System
 
 - **Dark Glassmorphism**: Frosted glass cards (`backdrop-filter: blur(20px)`, transparent bg, subtle borders)
-- **Aurora gradient mesh backgrounds**: Ambient orbs of plum `#2D1B3D`, indigo `#1A1A3E`, and warm gold `rgba(201,168,124,0.12)`
+- **Aurora gradient mesh backgrounds**: Ambient orbs of plum `#4E2A6B`, indigo `#2E2E78`, and warm gold `rgba(201,168,124,0.30)`
+- **Mouse-following spotlight overlay**: Champagne-to-lavender radial glow that trails the cursor
 - **Subtle film grain texture overlay** for analog warmth
-- **Gradient text on "You Own"**: champagne `#C9A87C` → lavender `#A78BFA`
+- **Gradient text on "Without Putting It On"**: champagne `#C9A87C` → lavender `#A78BFA`
 
 ### Shadows
 

@@ -35,9 +35,9 @@
   --color-text-muted: #6B6560;
 
   /* Ambient Gradient Mesh Colors */
-  --color-glow-plum: #2D1B3D;
-  --color-glow-indigo: #1A1A3E;
-  --color-glow-gold: rgba(201, 168, 124, 0.12);
+  --color-glow-plum: #4E2A6B;
+  --color-glow-indigo: #2E2E78;
+  --color-glow-gold: rgba(201, 168, 124, 0.30);
 
   /* Typography */
   --font-display: 'Clash Display', 'Inter', system-ui, sans-serif;

@@ -1,0 +1,66 @@
+---
+import AnimatedCounter from './AnimatedCounter.tsx';
+
+const stats = [
+  {
+    end: 80,
+    suffix: '%',
+    label: 'of clothes go unworn',
+    accent: 'champagne',
+  },
+  {
+    end: 100,
+    suffix: '+',
+    label: 'items in average closet',
+    accent: 'champagne',
+  },
+  {
+    end: 1800,
+    prefix: '$',
+    label: 'wasted annually',
+    accent: 'coral',
+  },
+];
+---
+
+<section class="relative py-16 sm:py-24 px-4" aria-labelledby="problem-heading">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-12 sm:mb-16 scroll-reveal">
+      <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+        The Problem
+      </span>
+      <h2
+        id="problem-heading"
+        class="text-3xl sm:text-5xl font-display font-bold text-text-primary mb-4"
+      >
+        Your closet is full, but you have
+        <span class="bg-gradient-to-r from-coral to-coral-light bg-clip-text text-transparent">
+          nothing to wear
+        </span>
+      </h2>
+      <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+        The average person only wears a fraction of their wardrobe. That's money wasted, space cluttered, and mornings stressed.
+      </p>
+    </div>
+
+    <!-- Stats grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+      {stats.map((stat) => (
+        <div class="glass rounded-2xl p-8 text-center scroll-reveal transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-champagne">
+          <div class={`text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-3 ${stat.accent === 'coral' ? 'text-coral' : 'text-champagne'}`}>
+            <AnimatedCounter
+              client:visible
+              end={stat.end}
+              prefix={stat.prefix || ''}
+              suffix={stat.suffix || ''}
+            />
+          </div>
+          <p class="text-text-secondary text-base sm:text-lg">
+            {stat.label}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

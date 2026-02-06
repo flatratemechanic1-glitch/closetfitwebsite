@@ -122,3 +122,11 @@
     background-position: 200% 0;
   }
 }
+
+/* Reduced-motion: show static centered spotlight glow */
+@media (prefers-reduced-motion: reduce) {
+  #hero-spotlight {
+    opacity: 0.5 !important;
+    transform: translate(calc(50vw - 600px), calc(50vh - 600px)) !important;
+  }
+}

@@ -126,7 +126,7 @@ export function organizationSchema() {
     name: 'ClosetFitApp',
     url: 'https://closetfitapp.com',
     logo: 'https://closetfitapp.com/logo.png',
-    description: 'AI-powered wardrobe management and outfit planning app',
+    description: 'AI-powered virtual try-on and wardrobe app. See yourself in any outfit, digitally.',
     sameAs: [
       'https://twitter.com/closetfitapp',
       'https://instagram.com/closetfitapp',
@@ -285,7 +285,7 @@ export function productSchema() {
     name: 'ClosetFitApp',
     applicationCategory: 'LifestyleApplication',
     operatingSystem: 'iOS, Android',
-    description: 'AI-powered wardrobe management and daily outfit planning app',
+    description: 'AI-powered virtual try-on and wardrobe app. See yourself in any outfit, digitally.',
     offers: {
       '@type': 'Offer',
       price: '0',

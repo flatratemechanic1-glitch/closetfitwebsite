@@ -4,7 +4,7 @@
 
 ## Project Context
 
-I'm building **ClosetFitApp.com** — a premium marketing website for an AI-powered wardrobe management app. The project uses **Astro 6 + Vercel + Tailwind CSS v4 + React Islands**.
+I'm building **ClosetFitApp.com** — a premium marketing website for an AI-powered virtual try-on and wardrobe management app. The project uses **Astro 6 + Vercel + Tailwind CSS v4 + React Islands**.
 
 ### What's done (Phase 1 — COMPLETE):
 - Master plan: `WEB_PRESENCE_MASTER_PLAN.md` (read this first — it has the full spec)
@@ -30,9 +30,9 @@ I'm building **ClosetFitApp.com** — a premium marketing website for an AI-powe
 **Build order for Phase 2:**
 1. **Navigation** (`src/components/global/Navigation.astro`) — sticky nav, blur backdrop `bg-bg/80 backdrop-blur-xl`, shrinks on scroll, mobile hamburger menu, links to: Features, Pricing, Blog, "Join Waitlist" CTA button
 2. **Footer** (`src/components/global/Footer.astro`) — links, social icons, app store badges
-3. **Homepage Hero** — replace the Coming Soon content in `src/pages/index.astro` with: aurora gradient mesh background (plum #2D1B3D, indigo #1A1A3E, warm gold rgba(201,168,124,0.12)), canvas particle system (Champagne #C9A87C), 3D phone mockup showing screenshot (try CSS 3D first — if good enough, skip React Three Fiber), GSAP staggered letter reveal headline "Wear Everything You Own" with gradient text (champagne → lavender) on "You Own", Coral CTA button with magnetic hover
+3. **Homepage Hero** — replace the Coming Soon content in `src/pages/index.astro` with: aurora gradient mesh background (plum #4E2A6B, indigo #2E2E78, warm gold rgba(201,168,124,0.30)), mouse-following spotlight overlay (champagne-to-lavender glow), canvas particle system (Champagne #C9A87C), 3D phone mockup showing screenshot (try CSS 3D first — if good enough, skip React Three Fiber), GSAP staggered letter reveal headline "Try It On / Without Putting It On" with gradient text (champagne → lavender) on "Without Putting It On", Coral CTA button with magnetic hover
 4. **Problem Section** — animated number count-up ("100+ items"), progress ring animation, CSS scroll-driven fade-in
-5. **How It Works** — GSAP ScrollTrigger scroll-pinned 3-step timeline with screenshots sliding in: "Photograph" → "AI Organizes" → "Get Daily Outfits"
+5. **How It Works** — GSAP ScrollTrigger scroll-pinned 3-step timeline with screenshots sliding in: "Snap Your Closet" → "Virtual Try-On" → "Styled Daily"
 6. **Features** — staggered card reveals (Motion library), CSS-only auto-scrolling screenshot marquee (all 8 screenshots, infinite loop, pauses on hover)
 7. **Pricing** — plan cards with scroll reveal, toggle annual/monthly, popular plan highlighted with Coral CTA + Lavender AI badge
 8. **Testimonials** — carousel with auto-slide
@@ -48,7 +48,7 @@ I'm building **ClosetFitApp.com** — a premium marketing website for an AI-powe
 - **Coral `#FF6B8A`**: CTAs and primary action buttons ONLY — "Join Waitlist", "Get Early Access", "Download" (Light: `#FF8FA8`, Dark: `#E84E6E`)
 - **NEVER use pure white `#FFFFFF`** for text — always warm cream `#F5F0EB`. Secondary: `#A09B93`. Muted: `#6B6560`
 - **Typography**: Clash Display (Fontshare) for headlines/hero/section titles, Inter (Google Fonts) for body/UI/nav, SF Mono/Fira Code for labels/code
-- **Aurora gradient mesh backgrounds**: Ambient orbs of plum `#2D1B3D`, indigo `#1A1A3E`, warm gold `rgba(201,168,124,0.12)`
+- **Aurora gradient mesh backgrounds**: Ambient orbs of plum `#4E2A6B`, indigo `#2E2E78`, warm gold `rgba(201,168,124,0.30)`
 - **8-point grid**: All spacing multiples of 4px
 - **44px min touch targets**
 - **Animation layers**: CSS-first → Motion library → GSAP → Three.js (only escalate when needed)

@@ -27,7 +27,7 @@ The `llms.txt` file is a new standard that tells AI crawlers which pages to prio
 # https://closetfitapp.com/llms.txt
 
 ## About
-ClosetFitApp is an AI-powered wardrobe management and outfit planning app.
+ClosetFitApp is an AI-powered virtual try-on and wardrobe app.
 It helps users organize their closet, build capsule wardrobes, and get
 daily AI-generated outfit suggestions based on weather, calendar, and style.
 

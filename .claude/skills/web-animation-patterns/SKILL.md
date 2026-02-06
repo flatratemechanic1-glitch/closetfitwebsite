@@ -96,9 +96,9 @@ Animation standards for the ClosetFitApp "Noir Luxe" marketing site. Every anima
 ```css
 .aurora-mesh {
   background:
-    radial-gradient(ellipse 600px 600px at 20% 30%, #2D1B3D 0%, transparent 70%),
-    radial-gradient(ellipse 500px 500px at 75% 60%, #1A1A3E 0%, transparent 70%),
-    radial-gradient(ellipse 400px 400px at 50% 80%, rgba(201, 168, 124, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 800px 800px at 20% 30%, #4E2A6B 0%, transparent 70%),
+    radial-gradient(ellipse 700px 700px at 75% 60%, #2E2E78 0%, transparent 70%),
+    radial-gradient(ellipse 600px 600px at 50% 80%, rgba(201, 168, 124, 0.30) 0%, transparent 70%),
     #09090B;
   background-size: 200% 200%;
   animation: aurora-drift 20s ease-in-out infinite;

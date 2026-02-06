@@ -1,0 +1,86 @@
+---
+import PricingToggle from './PricingToggle.tsx';
+
+const plans = [
+  {
+    name: 'Free',
+    monthlyPrice: 0,
+    description: 'Get started and organize your basics.',
+    features: [
+      { text: 'Up to 50 clothing items', included: true },
+      { text: 'Basic categorization', included: true },
+      { text: 'Manual outfit logging', included: true },
+      { text: 'Wardrobe value summary', included: true },
+      { text: 'AI outfit suggestions', included: false },
+      { text: 'Weather-based styling', included: false },
+      { text: 'Capsule builder', included: false },
+      { text: 'Priority support', included: false },
+    ],
+    isPopular: false,
+    ctaText: 'Get Started Free',
+    ctaHref: '/waitlist',
+  },
+  {
+    name: 'Pro',
+    monthlyPrice: 9.99,
+    description: 'AI-powered styling for your everyday.',
+    features: [
+      { text: 'Unlimited clothing items', included: true },
+      { text: 'Smart AI cataloging', included: true },
+      { text: 'AI outfit suggestions', included: true },
+      { text: 'Weather-based styling', included: true },
+      { text: 'Wardrobe analytics dashboard', included: true },
+      { text: 'Style calendar', included: true },
+      { text: 'Capsule builder', included: false },
+      { text: 'Priority support', included: false },
+    ],
+    isPopular: true,
+    ctaText: 'Get Started',
+    ctaHref: '/waitlist',
+  },
+  {
+    name: 'Premium',
+    monthlyPrice: 19.99,
+    description: 'The complete personal stylist experience.',
+    features: [
+      { text: 'Everything in Pro', included: true },
+      { text: 'Capsule wardrobe builder', included: true },
+      { text: 'Unlimited outfit history', included: true },
+      { text: 'Shopping gap analysis', included: true },
+      { text: 'Seasonal trend alerts', included: true },
+      { text: 'Multi-closet support', included: true },
+      { text: 'Family sharing (up to 4)', included: true },
+      { text: 'Priority support', included: true },
+    ],
+    isPopular: false,
+    ctaText: 'Get Started',
+    ctaHref: '/waitlist',
+  },
+];
+---
+
+<section class="relative py-16 sm:py-24 px-4" aria-labelledby="pricing-heading">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-12 sm:mb-16 scroll-reveal">
+      <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+        Pricing
+      </span>
+      <h2
+        id="pricing-heading"
+        class="text-3xl sm:text-5xl font-display font-bold text-text-primary mb-4"
+      >
+        Simple, transparent
+        <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+          pricing
+        </span>
+      </h2>
+      <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+        Start free, upgrade when you are ready. No hidden fees, cancel anytime.
+      </p>
+    </div>
+
+    <!-- Pricing toggle + cards -->
+    <PricingToggle client:idle plans={plans} />
+  </div>
+</section>

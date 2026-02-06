@@ -1,0 +1,74 @@
+---
+import FeatureCards from './FeatureCards.tsx';
+import ScreenshotCarousel from './ScreenshotCarousel.astro';
+
+const features = [
+  {
+    title: 'Smart Cataloging',
+    description: 'Snap a photo of any clothing item and our system instantly recognizes it, categorizes by type, color, season, and occasion, and adds it to your digital wardrobe.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5"/><path d="M17.5 7h.01"/></svg>',
+    isAI: false,
+  },
+  {
+    title: 'AI Outfit Suggestions',
+    description: 'Get personalized outfit recommendations based on your style preferences, schedule, and what is already in your closet. Never repeat the same look twice.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l4 3 4-3v5l4 3-4 3v5l-4-3-4 3v-5l-4-3 4-3V2z"/><path d="M20 5l.8-.8M20 5l-.8-.8M22 7h-1.2"/></svg>',
+    isAI: true,
+  },
+  {
+    title: 'Weather-Based Styling',
+    description: 'Our AI checks the forecast and suggests outfits that match the weather ahead. Rain, shine, or snow — you will always be dressed for the day.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="7" r="3"/><path d="M17 4V2M17 12v-2M21 7h2M12 7h2M20 4l1-1M14 4l-1-1M20 10l1 1M14 10l-1 1"/><path d="M6 19a4 4 0 0 1-.88-7.9A5.5 5.5 0 0 1 16 11.1 3 3 0 0 1 16.5 17H6z"/></svg>',
+    isAI: true,
+  },
+  {
+    title: 'Wardrobe Analytics',
+    description: 'See which clothes you wear most, which are gathering dust, and how much your wardrobe is really worth. Data-driven insights for smarter shopping.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>',
+    isAI: false,
+  },
+  {
+    title: 'Capsule Builder',
+    description: 'Build versatile capsule wardrobes from your existing clothes. Create travel packs, seasonal capsules, or minimalist collections with maximum outfit combinations.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>',
+    isAI: false,
+  },
+  {
+    title: 'Style Calendar',
+    description: 'Plan your outfits for the entire week ahead. Sync with your calendar so you are always dressed appropriately for meetings, dates, workouts, and everything in between.',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18"/><path d="M8 2v4M16 2v4"/><path d="M9 15l2 2 4-4"/></svg>',
+    isAI: false,
+  },
+];
+---
+
+<section class="relative py-16 sm:py-24 px-4" aria-labelledby="features-heading">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-12 sm:mb-16 scroll-reveal">
+      <span class="inline-block px-4 py-1.5 glass rounded-full text-xs font-sans uppercase tracking-[0.3em] text-champagne mb-6">
+        Features
+      </span>
+      <h2
+        id="features-heading"
+        class="text-3xl sm:text-5xl font-display font-bold text-text-primary mb-4"
+      >
+        Everything you need to
+        <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">
+          dress smarter
+        </span>
+      </h2>
+      <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+        From AI-powered outfit suggestions to wardrobe analytics, ClosetFit turns your closet into your personal stylist.
+      </p>
+    </div>
+
+    <!-- Feature cards grid -->
+    <FeatureCards client:visible features={features} />
+  </div>
+
+  <!-- Screenshot carousel below features -->
+  <div class="mt-16 sm:mt-24">
+    <ScreenshotCarousel />
+  </div>
+</section>

@@ -112,7 +112,7 @@ const howItWorksSteps = [
         >
           Try It On
           <br />
-          <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">Without Putting It On</span>
+          <span class="bg-gradient-to-r from-champagne to-lavender bg-clip-text text-transparent">Without<br />Trying It On</span>
         </h1>
 
         <!-- Subheadline -->
@@ -122,8 +122,8 @@ const howItWorksSteps = [
           Step up your fashion game &mdash; try any outfit on screen before you wear it.
         </p>
 
-        <!-- Email Capture Form -->
-        <div class="animate-[fade-up_0.6s_ease-out_0.3s_both] max-w-md mx-auto lg:mx-0">
+        <!-- Email Capture Form (mobile only — desktop form is in right column) -->
+        <div class="animate-[fade-up_0.6s_ease-out_0.3s_both] max-w-md mx-auto sm:hidden">
           <WaitlistForm client:visible buttonText="Get Early Access" />
           <p class="text-sm text-text-muted mt-3">
             Join the waitlist. No spam, ever.
@@ -164,8 +164,15 @@ const howItWorksSteps = [
         </div>
       </div>
 
-      <!-- Right column: 3D Phone Mockup (hidden on small mobile) -->
-      <div class="hidden sm:block w-full sm:w-auto lg:w-[50%] xl:w-[55%] lg:max-w-[680px] animate-[fade-up_0.6s_ease-out_0.4s_both]">
+      <!-- Right column: Email form + 3D Phone Mockup (hidden on small mobile) -->
+      <div class="hidden sm:flex sm:flex-col w-full sm:w-auto lg:w-[50%] xl:w-[55%] lg:max-w-[680px] animate-[fade-up_0.6s_ease-out_0.4s_both]">
+        <!-- Email Capture Form (desktop — above carousel) -->
+        <div class="max-w-md mb-4">
+          <WaitlistForm client:visible buttonText="Get Early Access" />
+          <p class="text-sm text-text-muted mt-3">
+            Join the waitlist. No spam, ever.
+          </p>
+        </div>
         <Hero3DPhone client:visible screenshots={heroScreenshots} />
       </div>
     </div>

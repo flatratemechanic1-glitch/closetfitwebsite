@@ -151,10 +151,16 @@ const { title, description, ogImage, canonicalURL, schema, noindex } = Astro.pro
       schema={schema}
       noindex={noindex}
     />
+    <!-- Fonts: Clash Display (Fontshare) + Inter (Google Fonts) -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <ClientRouter />
   </head>
-  <body class="bg-[#121212] text-white antialiased min-h-screen">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-[#2962FF] focus:text-white">
+  <body class="bg-bg text-text-primary antialiased min-h-screen font-sans">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-champagne focus:text-bg">
       Skip to content
     </a>
     <ScrollProgress />

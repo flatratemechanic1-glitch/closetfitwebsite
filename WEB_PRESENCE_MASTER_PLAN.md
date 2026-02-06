@@ -87,13 +87,13 @@ This is what makes us jaw-dropping. Every section has purposeful motion. The sit
 
 ```
 HERO SECTION
-├── Background: Animated gradient mesh (CSS only, shifts between #121212 → #1A237E → #121212)
-├── Particles: Canvas-based Electric Blue (#2962FF) particle system, mouse-reactive
+├── Background: Aurora gradient mesh (CSS only, ambient orbs of plum #2D1B3D, indigo #1A1A3E, warm gold rgba(201,168,124,0.12))
+├── Particles: Canvas-based Champagne (#C9A87C) particle system, mouse-reactive
 ├── 3D Phone: React Three Fiber island — floating phone mockup showing app screenshots
 │   └── Rotates slowly on load, responds to mouse position
 ├── Headline: Staggered letter reveal with GSAP ("Wear Everything You Own")
 ├── Subhead: Fade-up on 200ms delay
-└── CTA Button: Neon Lime (#CCFF00) with magnetic hover effect + glow pulse
+└── CTA Button: Coral (#FF6B8A) with magnetic hover effect + glow pulse
 
 PROBLEM SECTION (scroll-triggered)
 ├── "100+ items" counter: Animated number count-up (Motion library inView trigger)
@@ -109,14 +109,14 @@ HOW IT WORKS (scroll-triggered)
 
 FEATURES SECTION (scroll-triggered)
 ├── Feature cards: Staggered reveal with Motion library (stagger 0.1s)
-├── Each card: Hover → lift + shadow + border glow (Electric Blue)
-├── AI features: Neon Lime (#CCFF00) left border accent + subtle pulse
+├── Each card: Hover → lift + shadow + border glow (Champagne)
+├── AI features: Lavender (#A78BFA) left border accent + subtle pulse
 └── Screenshots: Parallax scroll effect (CSS scroll-driven)
 
 PRICING SECTION
 ├── Plan cards: Scroll reveal with scale-up
 ├── Hover: Card lifts, shadow deepens, border highlights
-├── Popular plan: Subtle glow animation (Neon Lime for AI features)
+├── Popular plan: Subtle glow animation (Coral for CTAs, Lavender for AI features)
 └── Toggle annual/monthly: Smooth number transition animation
 
 SOCIAL PROOF (scroll-triggered)
@@ -130,7 +130,7 @@ FAQ SECTION
 
 FINAL CTA
 ├── Full-width section with animated gradient background
-├── CTA button: Large, Neon Lime, magnetic hover + glow
+├── CTA button: Large, Coral (#FF6B8A), magnetic hover + glow
 └── Scroll-triggered confetti/particle burst on viewport entry
 ```
 
@@ -172,7 +172,7 @@ FINAL CTA
 |----------|-----------|-----------------|---------|
 | **Hero section** | 3D floating phone mockup | Layer 4: React Three Fiber (~50kb lazy via `client:visible`) | Single screenshot rendered inside a 3D phone model. Slowly rotates on load, responds to mouse/gyro position. |
 | **How It Works** | GSAP scroll-pinned sequence | Layer 3: GSAP ScrollTrigger (~30kb lazy) | 3 screenshots slide in one at a time as user scrolls through the 3-step process. Each step pins while explaining, then scrolls to next. |
-| **Features section** | Auto-scrolling marquee | Layer 1: CSS-only (0kb JS) | All 8 screenshots in a continuous horizontal scroll strip using CSS `@keyframes` animation. Pauses on hover. Electric Blue (#2962FF) glow border on each frame. Duplicated track for seamless infinite loop. |
+| **Features section** | Auto-scrolling marquee | Layer 1: CSS-only (0kb JS) | All 8 screenshots in a continuous horizontal scroll strip using CSS `@keyframes` animation. Pauses on hover. Glass-bordered phone frames with champagne (#C9A87C) glow on hover. Duplicated track for seamless infinite loop. |
 | **Social proof / gallery** | Carousel with parallax tilt | Layer 2: Motion library (3.8kb) | Swipeable card carousel with slight 3D parallax tilt on each card. Auto-advances every 4s. Dot indicators below. Touch/swipe on mobile. |
 | **Download page** | Fanned card spread | Layer 2: Motion library (3.8kb) | Screenshots fanned out like a hand of cards with overlapping edges. Hover on any card expands it forward with a smooth scale + z-index animation. |
 | **Blog sidebar** | Rotating showcase | Layer 1: CSS crossfade (0kb JS) | Single frame that crossfades between screenshots every 5s using CSS `animation`. "See it in action" CTA button below. |
@@ -364,15 +364,57 @@ Every blog post follows this AEO-optimized template:
 
 ---
 
-## 10. Branding (Web ↔ App Consistency)
+## 10. Branding — "Noir Luxe" (Web ↔ App Consistency)
 
 From WEBSITE_STYLE_GUIDE.md:
 
-- **Background**: `#121212` (deep charcoal, never `#000000`)
-- **Surfaces**: `#1E1E1E` cards, nav, elevated sections
-- **Primary**: `#2962FF` (Electric Blue) — links, buttons, trust actions
-- **AI accent**: `#CCFF00` (Neon Lime) — **AI features ONLY**, never general UI
-- **Typography**: System fonts, same scale as app
+### Color Palette
+
+- **Background**: `#09090B` (deep obsidian, never `#000000`)
+- **Surfaces**: `rgba(255, 255, 255, 0.05)` with `backdrop-blur-xl` glassmorphism
+- **Surface solid fallback**: `#131316` (for contexts where backdrop-filter is unsupported)
+- **Border**: `rgba(255, 255, 255, 0.08)`
+
+- **Champagne `#C9A87C`**: Primary brand — links, heading accents, trust actions, nav active states
+  - Light: `#DCC4A0`, Dark: `#A68B5B`
+- **Lavender `#A78BFA`**: AI features ONLY — "AI" badges, tech callouts, lavender left-border on AI cards
+  - Light: `#C4B5FD`, Dark: `#8B5CF6`
+- **Coral `#FF6B8A`**: CTAs and primary action buttons ONLY — "Join Waitlist", "Get Early Access", "Download"
+  - Light: `#FF8FA8`, Dark: `#E84E6E`
+
+- **Text Primary**: `#F5F0EB` (warm cream, NEVER pure white `#FFFFFF`)
+- **Text Secondary**: `#A09B93` (warm gray)
+- **Text Muted**: `#6B6560` (warm muted)
+
+### Typography
+
+- **Display**: Clash Display (Fontshare, free) — Headlines, hero text, section titles
+- **Sans**: Inter (Google Fonts) — Body text, UI elements, navigation
+- **Mono**: SF Mono / Fira Code — Labels, code, technical callouts
+
+### Visual System
+
+- **Dark Glassmorphism**: Frosted glass cards (`backdrop-filter: blur(20px)`, transparent bg, subtle borders)
+- **Aurora gradient mesh backgrounds**: Ambient orbs of plum `#2D1B3D`, indigo `#1A1A3E`, and warm gold `rgba(201,168,124,0.12)`
+- **Subtle film grain texture overlay** for analog warmth
+- **Gradient text on "You Own"**: champagne `#C9A87C` → lavender `#A78BFA`
+
+### Shadows
+
+- `--shadow-glow-champagne: 0 0 20px rgba(201, 168, 124, 0.25)`
+- `--shadow-glow-lavender: 0 0 20px rgba(167, 139, 250, 0.25)`
+- `--shadow-glow-coral: 0 0 20px rgba(255, 107, 138, 0.3)`
+
+### Color Usage Rules
+
+- **Champagne gold**: Primary brand. Links, heading accents, trust indicators, nav active states
+- **Electric lavender**: AI-specific features ONLY. "AI" badges, tech callouts, lavender left-border on AI cards
+- **Coral**: CTAs and primary action buttons ONLY. "Join Waitlist", "Get Early Access", "Download"
+- **NEVER use pure white `#FFFFFF`** for text — always warm cream `#F5F0EB`
+- **ALL surfaces** use glassmorphism (transparent + backdrop-blur) where possible
+
+### Other Rules
+
 - **Dark mode only**: No light mode
 - **8-point grid**: All spacing multiples of 4px
 - **Min touch targets**: 44px
@@ -712,6 +754,6 @@ closetfitapp-web/
 | **Email flow** | Signup → confirmation → automation sequence works end-to-end |
 | **Preview deploys** | Every PR gets a Vercel preview URL for review |
 | **Auto-posting** | n8n triggers, Sanity publishes, Vercel rebuilds, post is live |
-| **Dark mode consistency** | Every page matches Industrial Cool aesthetic |
+| **Dark mode consistency** | Every page matches Noir Luxe aesthetic |
 | **Screenshot display** | All 6 treatments render correctly with placeholder images |
 | **Screenshot swap** | Replacing placeholder PNGs with real screenshots requires zero code changes |

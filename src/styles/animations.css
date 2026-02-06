@@ -1,11 +1,15 @@
-/* Scroll Progress Bar */
+/* ============================================
+   ClosetFit "Noir Luxe" Animations
+   ============================================ */
+
+/* Scroll Progress Bar — Champagne to Lavender gradient */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 3px;
-  background: #2962FF;
+  background: linear-gradient(90deg, #C9A87C, #A78BFA);
   transform-origin: left;
   animation: grow-progress linear;
   animation-timeline: scroll(root);
@@ -45,22 +49,44 @@
   }
 }
 
-/* Glow Pulse (Neon Lime CTA) */
+/* Glow Pulse — Coral (CTAs) */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(204, 255, 0, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(204, 255, 0, 0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 138, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(255, 107, 138, 0.5); }
 }
 
-/* Glow Pulse (Electric Blue) */
-@keyframes glow-pulse-blue {
-  0%, 100% { box-shadow: 0 0 20px rgba(41, 98, 255, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(41, 98, 255, 0.5); }
+/* Glow Pulse — Lavender (AI features) */
+@keyframes glow-pulse-lavender {
+  0%, 100% { box-shadow: 0 0 20px rgba(167, 139, 250, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(167, 139, 250, 0.5); }
+}
+
+/* Glow Pulse — Champagne (brand) */
+@keyframes glow-pulse-champagne {
+  0%, 100% { box-shadow: 0 0 20px rgba(201, 168, 124, 0.25); }
+  50% { box-shadow: 0 0 40px rgba(201, 168, 124, 0.4); }
 }
 
 /* Shimmer (loading skeleton) */
 @keyframes shimmer {
   from { background-position: -200% center; }
   to { background-position: 200% center; }
+}
+
+/* Aurora Gradient Mesh Drift */
+@keyframes aurora-drift {
+  0%, 100% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
+  25% {
+    background-position: 30% 30%, 70% 70%, 40% 60%;
+  }
+  50% {
+    background-position: 60% 60%, 40% 30%, 70% 40%;
+  }
+  75% {
+    background-position: 80% 40%, 20% 60%, 60% 80%;
+  }
 }
 
 /* Gradient Background Shift */
@@ -85,4 +111,14 @@
 @keyframes crossfade {
   0%, 10% { opacity: 1; }
   12.5%, 100% { opacity: 0; }
+}
+
+/* Glass Shimmer — light sweep on hover */
+@keyframes glass-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

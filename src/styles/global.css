@@ -1,28 +1,47 @@
 @import 'tailwindcss';
 
-/* ClosetFit Design Tokens */
+/* ============================================
+   ClosetFit "Noir Luxe" Design Tokens
+   Dark Glassmorphism + Fashion Editorial
+   ============================================ */
+
 @theme {
-  /* Colors */
-  --color-bg: #121212;
-  --color-surface: #1E1E1E;
-  --color-surface-hover: #2A2A2A;
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-border-hover: rgba(255, 255, 255, 0.2);
+  /* Background System */
+  --color-bg: #09090B;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-surface-hover: rgba(255, 255, 255, 0.08);
+  --color-surface-solid: #131316;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.15);
 
-  --color-electric-blue: #2962FF;
-  --color-electric-blue-light: #448AFF;
-  --color-electric-blue-dark: #1E4ADB;
+  /* Brand Colors — Champagne (primary brand, links, trust) */
+  --color-champagne: #C9A87C;
+  --color-champagne-light: #DCC4A0;
+  --color-champagne-dark: #A68B5B;
 
-  --color-neon-lime: #CCFF00;
-  --color-neon-lime-light: #D6FF33;
-  --color-neon-lime-dark: #A3CC00;
+  /* Brand Colors — Lavender (AI features ONLY) */
+  --color-lavender: #A78BFA;
+  --color-lavender-light: #C4B5FD;
+  --color-lavender-dark: #8B5CF6;
 
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #B0B0B0;
-  --color-text-muted: #757575;
+  /* Brand Colors — Coral (CTAs ONLY) */
+  --color-coral: #FF6B8A;
+  --color-coral-light: #FF8FA8;
+  --color-coral-dark: #E84E6E;
+
+  /* Text System — Warm editorial tones */
+  --color-text-primary: #F5F0EB;
+  --color-text-secondary: #A09B93;
+  --color-text-muted: #6B6560;
+
+  /* Ambient Gradient Mesh Colors */
+  --color-glow-plum: #2D1B3D;
+  --color-glow-indigo: #1A1A3E;
+  --color-glow-gold: rgba(201, 168, 124, 0.12);
 
   /* Typography */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Clash Display', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* Border Radius */
@@ -33,14 +52,63 @@
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow-blue: 0 0 20px rgba(41, 98, 255, 0.3);
-  --shadow-glow-lime: 0 0 20px rgba(204, 255, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow-champagne: 0 0 20px rgba(201, 168, 124, 0.25);
+  --shadow-glow-lavender: 0 0 20px rgba(167, 139, 250, 0.25);
+  --shadow-glow-coral: 0 0 20px rgba(255, 107, 138, 0.3);
+
+  /* Spacing (8-point grid) */
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* Z-Index Scale */
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-nav: 30;
+  --z-modal: 40;
+  --z-toast: 50;
 }
 
-/* Base styles */
+/* ============================================
+   Glassmorphism Utilities
+   ============================================ */
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@utility glass-strong {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
 html {
   scroll-behavior: smooth;
 }
@@ -50,31 +118,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Selection */
+/* Selection — champagne gold */
 ::selection {
-  background: rgba(41, 98, 255, 0.3);
-  color: white;
+  background: rgba(201, 168, 124, 0.3);
+  color: #F5F0EB;
 }
 
-/* Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #121212;
+  background: #09090B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #2A2A2E;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #3A3A3E;
 }
 
-/* Reduced motion */
+/* ============================================
+   Reduced Motion — Accessibility
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

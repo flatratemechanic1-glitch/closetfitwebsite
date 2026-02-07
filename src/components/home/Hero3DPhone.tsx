@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 interface Props {
   screenshots: string[];
-  transformVideoSrc?: string;
+  transformFrames?: string[];
   transformPoster?: string;
 }
 
@@ -50,95 +50,53 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
   );
 }
 
-function CenterShowcase({ videoSrc }: { videoSrc: string }) {
-  const [canvasTexture, setCanvasTexture] = useState<THREE.CanvasTexture | null>(null);
+function CenterShowcase({ frames }: { frames: string[] }) {
+  const [textures, setTextures] = useState<THREE.Texture[]>([]);
+  const frameIndex = useRef(0);
+  const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const textureRef = useRef<THREE.CanvasTexture | null>(null);
+  const elapsed = useRef(0);
 
   useEffect(() => {
-    // Create hidden video element — must be in DOM for reliable loading
-    const video = document.createElement('video');
-    video.src = videoSrc;
-    video.crossOrigin = 'anonymous';
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.autoplay = true;
-    video.style.position = 'fixed';
-    video.style.top = '-9999px';
-    video.style.left = '-9999px';
-    video.style.width = '1px';
-    video.style.height = '1px';
-    video.style.opacity = '0';
-    video.style.pointerEvents = 'none';
-    document.body.appendChild(video);
-    videoRef.current = video;
-
-    // Create canvas for alpha-preserving frame extraction.
-    // drawImage(video) on a 2D canvas preserves VP9 alpha;
-    // THREE.VideoTexture does NOT (WebGL texImage2D drops alpha from video elements).
-    const canvas = document.createElement('canvas');
-    canvas.width = 1280;
-    canvas.height = 720;
-    canvasRef.current = canvas;
-    const ctx = canvas.getContext('2d', { willReadFrequently: false });
-    ctxRef.current = ctx;
-
-    const onLoaded = () => {
-      // Draw first frame so texture isn't blank
-      if (ctx) ctx.drawImage(video, 0, 0, 1280, 720);
-
-      const tex = new THREE.CanvasTexture(canvas);
-      tex.minFilter = THREE.LinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.colorSpace = THREE.SRGBColorSpace;
-      textureRef.current = tex;
-      setCanvasTexture(tex);
-
-      video.play().catch((err) => {
-        console.warn('Video autoplay blocked:', err);
-        const playOnClick = () => video.play().catch(() => {});
-        document.addEventListener('click', playOnClick, { once: true });
-      });
-    };
-
-    video.addEventListener('loadeddata', onLoaded, { once: true });
-    video.addEventListener('error', () => {
-      console.warn('Failed to load transform video:', videoSrc);
-    }, { once: true });
-    video.load();
-
+    const loader = new THREE.TextureLoader();
+    let disposed = false;
+    Promise.all(
+      frames.map(
+        (url) =>
+          new Promise<THREE.Texture | null>((resolve) => {
+            loader.load(url, resolve, undefined, () => resolve(null));
+          }),
+      ),
+    ).then((loaded) => {
+      if (!disposed) {
+        const valid = loaded.filter((t): t is THREE.Texture => t !== null);
+        setTextures(valid);
+      }
+    });
     return () => {
-      video.pause();
-      video.src = '';
-      if (video.parentNode) video.parentNode.removeChild(video);
-      if (textureRef.current) textureRef.current.dispose();
-      videoRef.current = null;
-      canvasRef.current = null;
-      ctxRef.current = null;
-      textureRef.current = null;
+      disposed = true;
     };
-  }, [videoSrc]);
+  }, [frames]);
 
-  // Each frame: draw video → canvas (preserves alpha), then flag texture for GPU upload
-  useFrame(({ clock }) => {
-    if (ctxRef.current && videoRef.current && textureRef.current) {
-      if (!videoRef.current.paused && videoRef.current.readyState >= 2) {
-        ctxRef.current.drawImage(videoRef.current, 0, 0, 1280, 720);
-        textureRef.current.needsUpdate = true;
+  // Cycle frames at ~3fps (333ms per frame) for a stylish flipbook feel
+  useFrame((_, delta) => {
+    if (textures.length === 0) return;
+    elapsed.current += delta;
+    if (elapsed.current >= 0.333) {
+      elapsed.current = 0;
+      frameIndex.current = (frameIndex.current + 1) % textures.length;
+      if (materialRef.current) {
+        materialRef.current.map = textures[frameIndex.current];
+        materialRef.current.needsUpdate = true;
       }
     }
     if (glowRef.current) {
-      const pulse = Math.sin(clock.elapsedTime * 2) * 0.03 + 0.07;
+      const pulse = Math.sin(performance.now() / 1000 * 2) * 0.03 + 0.07;
       glowRef.current.opacity = pulse;
     }
   });
 
   // 16:9 aspect ratio scaled for perspective (1.8x compensation)
-  // Width: 5.0, Height: 2.8 (16:9 ratio at ~1.8x scale)
   return (
     <group position={[0, 0, 0]}>
       {/* Subtle glow behind the figure */}
@@ -153,12 +111,13 @@ function CenterShowcase({ videoSrc }: { videoSrc: string }) {
           depthWrite={false}
         />
       </mesh>
-      {/* Transparent video plane — canvas intermediary preserves VP9 alpha */}
+      {/* Frame sequence plane — transparent WebP textures */}
       <mesh>
         <planeGeometry args={[5.0, 2.8]} />
-        {canvasTexture ? (
+        {textures.length > 0 ? (
           <meshBasicMaterial
-            map={canvasTexture}
+            ref={materialRef}
+            map={textures[0]}
             transparent
             alphaTest={0.1}
             depthWrite={false}
@@ -171,7 +130,7 @@ function CenterShowcase({ videoSrc }: { videoSrc: string }) {
   );
 }
 
-function PhoneCarousel({ screenshots, transformVideoSrc }: { screenshots: string[]; transformVideoSrc?: string }) {
+function PhoneCarousel({ screenshots, transformFrames }: { screenshots: string[]; transformFrames?: string[] }) {
   const groupRef = useRef<THREE.Group>(null);
   const tiltRef = useRef<THREE.Group>(null);
   const count = screenshots.length;
@@ -251,9 +210,9 @@ function PhoneCarousel({ screenshots, transformVideoSrc }: { screenshots: string
   return (
     <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
       <group ref={tiltRef}>
-        {/* Center showcase — transparent video, fixed at origin, does not rotate */}
-        {transformVideoSrc && (
-          <CenterShowcase videoSrc={transformVideoSrc} />
+        {/* Center showcase — frame sequence animation, fixed at origin, does not rotate */}
+        {transformFrames && transformFrames.length > 0 && (
+          <CenterShowcase frames={transformFrames} />
         )}
         <group ref={groupRef} onPointerDown={handlePointerDown}>
           {screenshots.map((url, i) => {
@@ -338,7 +297,7 @@ function StaticCarouselFallback({ screenshots, transformPoster }: { screenshots:
   );
 }
 
-export default function Hero3DPhone({ screenshots, transformVideoSrc, transformPoster }: Props) {
+export default function Hero3DPhone({ screenshots, transformFrames, transformPoster }: Props) {
   const { mounted, reducedMotion } = useReducedMotion();
 
   if (!mounted) {
@@ -368,7 +327,7 @@ export default function Hero3DPhone({ screenshots, transformVideoSrc, transformP
           >
             <ambientLight intensity={0.4} />
             <directionalLight position={[5, 5, 5]} intensity={0.6} />
-            <PhoneCarousel screenshots={screenshots} transformVideoSrc={transformVideoSrc} />
+            <PhoneCarousel screenshots={screenshots} transformFrames={transformFrames} />
             <Environment preset="city" />
           </Canvas>
         </Suspense>

@@ -30,7 +30,9 @@ const heroScreenshots = [
   '/screenshots/08.webp',
 ];
 
-const transformVideoSrc = '/videos/transform.webm';
+const transformFrames = Array.from({ length: 24 }, (_, i) =>
+  `/transform/frame-${String(i + 1).padStart(3, '0')}.webp`
+);
 
 const howItWorksSteps = [
   {
@@ -68,8 +70,8 @@ const howItWorksSteps = [
     <div
       class="absolute inset-0"
       style="background:
-        radial-gradient(ellipse 800px 800px at 20% 30%, #4E2A6B 0%, transparent 70%),
-        radial-gradient(ellipse 700px 700px at 75% 60%, #2E2E78 0%, transparent 70%),
+        radial-gradient(ellipse 800px 800px at 75% 60%, #4E2A6B 0%, transparent 70%),
+        radial-gradient(ellipse 700px 700px at 20% 30%, #2E2E78 0%, transparent 70%),
         radial-gradient(ellipse 600px 600px at 50% 80%, rgba(201, 168, 124, 0.30) 0%, transparent 70%),
         #09090B;
         background-size: 200% 200%;
@@ -175,7 +177,7 @@ const howItWorksSteps = [
             Join the waitlist. No spam, ever.
           </p>
         </div>
-        <Hero3DPhone client:visible screenshots={heroScreenshots} transformVideoSrc={transformVideoSrc} />
+        <Hero3DPhone client:visible screenshots={heroScreenshots} transformFrames={transformFrames} />
       </div>
     </div>
 

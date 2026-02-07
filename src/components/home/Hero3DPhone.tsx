@@ -90,7 +90,6 @@ function CenterShowcase({ frames }: { frames: string[] }) {
           ref={materialRef}
           map={textures[0]}
           alphaTest={0.5}
-          depthWrite={false}
         />
       </mesh>
     </group>

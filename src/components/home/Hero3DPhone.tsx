@@ -69,7 +69,7 @@ function CenterShowcase({ frames }: { frames: string[] }) {
   useFrame((_, delta) => {
     if (textures.length === 0) return;
     elapsed.current += delta;
-    const delay = frameIndex.current === 0 ? 2.0 : 0.167;
+    const delay = frameIndex.current === 0 ? 2.5 : 0.167;
     if (elapsed.current >= delay) {
       elapsed.current = 0;
       frameIndex.current = (frameIndex.current + 1) % textures.length;

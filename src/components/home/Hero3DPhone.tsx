@@ -57,11 +57,11 @@ function CenterShowcase({ frames }: { frames: string[] }) {
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
   const elapsed = useRef(0);
 
-  // Cycle frames at ~3fps (333ms per frame) for a stylish flipbook feel
+  // Cycle frames at ~6fps (167ms per frame)
   useFrame((_, delta) => {
     if (textures.length === 0) return;
     elapsed.current += delta;
-    if (elapsed.current >= 0.333) {
+    if (elapsed.current >= 0.167) {
       elapsed.current = 0;
       frameIndex.current = (frameIndex.current + 1) % textures.length;
       if (materialRef.current) {
@@ -79,7 +79,7 @@ function CenterShowcase({ frames }: { frames: string[] }) {
     <group position={[0, 0, 0]}>
       {/* Subtle glow behind the figure */}
       <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[5.5, 3.5]} />
+        <planeGeometry args={[3.6, 5.5]} />
         <meshBasicMaterial
           ref={glowRef}
           color="#C9A87C"
@@ -89,9 +89,9 @@ function CenterShowcase({ frames }: { frames: string[] }) {
           depthWrite={false}
         />
       </mesh>
-      {/* Frame sequence plane — transparent WebP textures */}
+      {/* Frame sequence plane — portrait crop, transparent WebP textures */}
       <mesh>
-        <planeGeometry args={[5.0, 2.8]} />
+        <planeGeometry args={[3.1, 5.0]} />
         <meshBasicMaterial
           ref={materialRef}
           map={textures[0]}

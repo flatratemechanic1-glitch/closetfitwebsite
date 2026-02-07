@@ -81,13 +81,14 @@ function CenterShowcase({ frames }: { frames: string[] }) {
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Frame sequence plane — 5.40×10.0 preserves exact 368:682 aspect ratio */}
+      {/* Frame sequence plane — 4.05×7.5 preserves exact 368:682 aspect ratio.
+           No 'transparent' flag — alphaTest alone discards alpha<0.5 fragments
+           without compositing artifacts that cause the visible rectangle. */}
       <mesh>
-        <planeGeometry args={[5.40, 10.0]} />
+        <planeGeometry args={[4.05, 7.5]} />
         <meshBasicMaterial
           ref={materialRef}
           map={textures[0]}
-          transparent
           alphaTest={0.5}
           depthWrite={false}
         />

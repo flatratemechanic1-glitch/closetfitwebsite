@@ -5,11 +5,10 @@ import { useReducedMotion } from '@/lib/hooks';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import * as THREE from 'three';
 
-const CENTER_PHONE_FPS = 4;
-
 interface Props {
   screenshots: string[];
-  transformFrames?: string[];
+  transformVideoSrc?: string;
+  transformPoster?: string;
 }
 
 function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
@@ -51,54 +50,54 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
   );
 }
 
-function CenterShowcasePhone({ frameUrls }: { frameUrls: string[] }) {
-  const [textures, setTextures] = useState<THREE.Texture[] | null>(null);
-  const materialRef = useRef<THREE.MeshBasicMaterial>(null);
+function CenterShowcase({ videoSrc }: { videoSrc: string }) {
+  const [videoTexture, setVideoTexture] = useState<THREE.VideoTexture | null>(null);
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
-  const frameIndex = useRef(0);
 
   useEffect(() => {
-    const loader = new THREE.TextureLoader();
-    const promises = frameUrls.map(
-      (url) =>
-        new Promise<THREE.Texture>((resolve, reject) =>
-          loader.load(url, resolve, undefined, reject),
-        ),
-    );
-    Promise.all(promises)
-      .then((loaded) => setTextures(loaded))
-      .catch(() => setTextures(null));
+    const video = document.createElement('video');
+    video.src = videoSrc;
+    video.crossOrigin = 'anonymous';
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
+    const onCanPlay = () => {
+      const tex = new THREE.VideoTexture(video);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.format = THREE.RGBAFormat;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      setVideoTexture(tex);
+      video.play().catch(() => {});
+    };
+
+    video.addEventListener('canplay', onCanPlay, { once: true });
+    video.load();
 
     return () => {
-      if (textures) {
-        textures.forEach((t) => t.dispose());
-      }
+      video.removeEventListener('canplay', onCanPlay);
+      video.pause();
+      video.src = '';
+      if (videoTexture) videoTexture.dispose();
     };
-  }, [frameUrls]);
+  }, [videoSrc]);
 
   useFrame(({ clock }) => {
-    if (!textures || textures.length === 0 || !materialRef.current) return;
-
-    const newIndex =
-      Math.floor(clock.elapsedTime * CENTER_PHONE_FPS) % textures.length;
-    if (newIndex !== frameIndex.current) {
-      frameIndex.current = newIndex;
-      materialRef.current.map = textures[newIndex];
-      materialRef.current.needsUpdate = true;
-    }
-
-    // Pulse glow during frame changes
     if (glowRef.current) {
       const pulse = Math.sin(clock.elapsedTime * 2) * 0.03 + 0.07;
       glowRef.current.opacity = pulse;
     }
   });
 
+  // 16:9 aspect ratio scaled for perspective (1.8x compensation)
+  // Width: 5.0, Height: 2.8 (16:9 ratio at ~1.8x scale)
   return (
     <group position={[0, 0, 0]}>
-      {/* Glow plane behind phone */}
-      <mesh position={[0, 0, -0.15]}>
-        <planeGeometry args={[3.4, 6.4]} />
+      {/* Subtle glow behind the figure */}
+      <mesh position={[0, 0, -0.1]}>
+        <planeGeometry args={[5.5, 3.5]} />
         <meshBasicMaterial
           ref={glowRef}
           color="#C9A87C"
@@ -108,28 +107,25 @@ function CenterShowcasePhone({ frameUrls }: { frameUrls: string[] }) {
           depthWrite={false}
         />
       </mesh>
-      {/* Phone body */}
-      <RoundedBox args={[2.88, 5.76, 0.18]} radius={0.18} smoothness={4}>
-        <meshStandardMaterial
-          color="#131316"
-          metalness={0.85}
-          roughness={0.15}
-        />
-      </RoundedBox>
-      {/* Screen */}
-      <mesh position={[0, 0, 0.095]}>
-        <planeGeometry args={[2.52, 5.4]} />
-        {textures && textures.length > 0 ? (
-          <meshBasicMaterial ref={materialRef} map={textures[0]} />
+      {/* Transparent video plane */}
+      <mesh>
+        <planeGeometry args={[5.0, 2.8]} />
+        {videoTexture ? (
+          <meshBasicMaterial
+            map={videoTexture}
+            transparent
+            alphaTest={0.1}
+            depthWrite={false}
+          />
         ) : (
-          <meshBasicMaterial color="#1a1a1f" />
+          <meshBasicMaterial transparent opacity={0} />
         )}
       </mesh>
     </group>
   );
 }
 
-function PhoneCarousel({ screenshots, transformFrames }: { screenshots: string[]; transformFrames?: string[] }) {
+function PhoneCarousel({ screenshots, transformVideoSrc }: { screenshots: string[]; transformVideoSrc?: string }) {
   const groupRef = useRef<THREE.Group>(null);
   const tiltRef = useRef<THREE.Group>(null);
   const count = screenshots.length;
@@ -209,9 +205,9 @@ function PhoneCarousel({ screenshots, transformFrames }: { screenshots: string[]
   return (
     <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
       <group ref={tiltRef}>
-        {/* Center showcase phone — fixed at origin, does not rotate */}
-        {transformFrames && transformFrames.length > 0 && (
-          <CenterShowcasePhone frameUrls={transformFrames} />
+        {/* Center showcase — transparent video, fixed at origin, does not rotate */}
+        {transformVideoSrc && (
+          <CenterShowcase videoSrc={transformVideoSrc} />
         )}
         <group ref={groupRef} onPointerDown={handlePointerDown}>
           {screenshots.map((url, i) => {
@@ -254,9 +250,8 @@ function PhonePlaceholder() {
   );
 }
 
-function StaticCarouselFallback({ screenshots, transformFrames }: { screenshots: string[]; transformFrames?: string[] }) {
+function StaticCarouselFallback({ screenshots, transformPoster }: { screenshots: string[]; transformPoster?: string }) {
   const display = screenshots.slice(0, 3);
-  const centerImage = transformFrames?.[0];
   return (
     <div className="w-full h-full flex items-center justify-center gap-4" aria-hidden="true">
       {display.map((src, i) => (
@@ -279,29 +274,25 @@ function StaticCarouselFallback({ screenshots, transformFrames }: { screenshots:
           />
         </div>
       ))}
-      {centerImage && (
-        <div
-          className="absolute rounded-[24px] glass overflow-hidden"
+      {transformPoster && (
+        <img
+          src={transformPoster}
+          alt=""
+          className="absolute"
           style={{
-            width: 180,
-            height: 360,
+            width: 200,
+            height: 'auto',
             zIndex: 3,
-            boxShadow: '0 0 30px rgba(201, 168, 124, 0.2)',
+            filter: 'drop-shadow(0 0 20px rgba(201, 168, 124, 0.3))',
           }}
-        >
-          <img
-            src={centerImage}
-            alt=""
-            className="absolute inset-[6px] rounded-[18px] object-cover"
-            loading="lazy"
-          />
-        </div>
+          loading="lazy"
+        />
       )}
     </div>
   );
 }
 
-export default function Hero3DPhone({ screenshots, transformFrames }: Props) {
+export default function Hero3DPhone({ screenshots, transformVideoSrc, transformPoster }: Props) {
   const { mounted, reducedMotion } = useReducedMotion();
 
   if (!mounted) {
@@ -315,7 +306,7 @@ export default function Hero3DPhone({ screenshots, transformFrames }: Props) {
   if (reducedMotion) {
     return (
       <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
-        <StaticCarouselFallback screenshots={screenshots} transformFrames={transformFrames} />
+        <StaticCarouselFallback screenshots={screenshots} transformPoster={transformPoster} />
       </div>
     );
   }
@@ -331,7 +322,7 @@ export default function Hero3DPhone({ screenshots, transformFrames }: Props) {
           >
             <ambientLight intensity={0.4} />
             <directionalLight position={[5, 5, 5]} intensity={0.6} />
-            <PhoneCarousel screenshots={screenshots} transformFrames={transformFrames} />
+            <PhoneCarousel screenshots={screenshots} transformVideoSrc={transformVideoSrc} />
             <Environment preset="city" />
           </Canvas>
         </Suspense>

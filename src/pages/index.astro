@@ -30,13 +30,7 @@ const heroScreenshots = [
   '/screenshots/08.webp',
 ];
 
-// Placeholder frames — replace with real video frames later
-const transformFrames = [
-  '/screenshots/01.webp',
-  '/screenshots/03.webp',
-  '/screenshots/05.webp',
-  '/screenshots/07.webp',
-];
+const transformVideoSrc = '/videos/transform.webm';
 
 const howItWorksSteps = [
   {
@@ -181,7 +175,7 @@ const howItWorksSteps = [
             Join the waitlist. No spam, ever.
           </p>
         </div>
-        <Hero3DPhone client:visible screenshots={heroScreenshots} transformFrames={transformFrames} />
+        <Hero3DPhone client:visible screenshots={heroScreenshots} transformVideoSrc={transformVideoSrc} />
       </div>
     </div>
 

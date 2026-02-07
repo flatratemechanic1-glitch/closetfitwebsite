@@ -85,7 +85,7 @@ function CenterShowcase({ frames }: { frames: string[] }) {
       {/* Frame sequence plane — 3.49×6.75 preserves exact 368:712 aspect ratio.
            30px top padding in frames prevents head clipping at texture edge. */}
       <mesh>
-        <planeGeometry args={[3.49, 6.75]} />
+        <planeGeometry args={[3.10, 6.0]} />
         <meshBasicMaterial
           ref={materialRef}
           map={textures[0]}
@@ -268,7 +268,7 @@ export default function Hero3DPhone({ screenshots, transformFrames, transformPos
 
   if (!mounted) {
     return (
-      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
+      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]">
         <PhonePlaceholder />
       </div>
     );
@@ -276,15 +276,15 @@ export default function Hero3DPhone({ screenshots, transformFrames, transformPos
 
   if (reducedMotion) {
     return (
-      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
+      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]">
         <StaticCarouselFallback screenshots={screenshots} transformPoster={transformPoster} />
       </div>
     );
   }
 
   return (
-    <ErrorBoundary fallback={<div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]"><PhonePlaceholder /></div>}>
-      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]" style={{ cursor: 'grab' }}>
+    <ErrorBoundary fallback={<div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]"><PhonePlaceholder /></div>}>
+      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]" style={{ cursor: 'grab' }}>
         <Suspense fallback={<PhonePlaceholder />}>
           <Canvas
             gl={{ alpha: true, antialias: true }}

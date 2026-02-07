@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment, RoundedBox } from '@react-three/drei';
+import { Float, Environment, RoundedBox, useTexture } from '@react-three/drei';
 import { useRef, Suspense, useEffect, useState } from 'react';
 import { useReducedMotion } from '@/lib/hooks';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
@@ -51,32 +51,11 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
 }
 
 function CenterShowcase({ frames }: { frames: string[] }) {
-  const [textures, setTextures] = useState<THREE.Texture[]>([]);
+  const textures = useTexture(frames);
   const frameIndex = useRef(0);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
   const elapsed = useRef(0);
-
-  useEffect(() => {
-    const loader = new THREE.TextureLoader();
-    let disposed = false;
-    Promise.all(
-      frames.map(
-        (url) =>
-          new Promise<THREE.Texture | null>((resolve) => {
-            loader.load(url, resolve, undefined, () => resolve(null));
-          }),
-      ),
-    ).then((loaded) => {
-      if (!disposed) {
-        const valid = loaded.filter((t): t is THREE.Texture => t !== null);
-        setTextures(valid);
-      }
-    });
-    return () => {
-      disposed = true;
-    };
-  }, [frames]);
 
   // Cycle frames at ~3fps (333ms per frame) for a stylish flipbook feel
   useFrame((_, delta) => {
@@ -96,7 +75,6 @@ function CenterShowcase({ frames }: { frames: string[] }) {
     }
   });
 
-  // 16:9 aspect ratio scaled for perspective (1.8x compensation)
   return (
     <group position={[0, 0, 0]}>
       {/* Subtle glow behind the figure */}
@@ -114,17 +92,13 @@ function CenterShowcase({ frames }: { frames: string[] }) {
       {/* Frame sequence plane — transparent WebP textures */}
       <mesh>
         <planeGeometry args={[5.0, 2.8]} />
-        {textures.length > 0 ? (
-          <meshBasicMaterial
-            ref={materialRef}
-            map={textures[0]}
-            transparent
-            alphaTest={0.1}
-            depthWrite={false}
-          />
-        ) : (
-          <meshBasicMaterial transparent opacity={0} />
-        )}
+        <meshBasicMaterial
+          ref={materialRef}
+          map={textures[0]}
+          transparent
+          alphaTest={0.1}
+          depthWrite={false}
+        />
       </mesh>
     </group>
   );

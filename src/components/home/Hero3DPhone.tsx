@@ -65,11 +65,12 @@ function CenterShowcase({ frames }: { frames: string[] }) {
     }
   }, [textures]);
 
-  // Cycle frames at ~6fps (167ms per frame)
+  // Cycle frames at ~6fps, but hold frame 0 (sweatsuit) for 1.5s
   useFrame((_, delta) => {
     if (textures.length === 0) return;
     elapsed.current += delta;
-    if (elapsed.current >= 0.167) {
+    const delay = frameIndex.current === 0 ? 1.5 : 0.167;
+    if (elapsed.current >= delay) {
       elapsed.current = 0;
       frameIndex.current = (frameIndex.current + 1) % textures.length;
       if (materialRef.current) {

@@ -51,12 +51,15 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
 }
 
 function CenterShowcase({ videoSrc }: { videoSrc: string }) {
-  const [videoTexture, setVideoTexture] = useState<THREE.VideoTexture | null>(null);
+  const [canvasTexture, setCanvasTexture] = useState<THREE.CanvasTexture | null>(null);
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const textureRef = useRef<THREE.VideoTexture | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const textureRef = useRef<THREE.CanvasTexture | null>(null);
 
   useEffect(() => {
+    // Create hidden video element — must be in DOM for reliable loading
     const video = document.createElement('video');
     video.src = videoSrc;
     video.crossOrigin = 'anonymous';
@@ -74,42 +77,60 @@ function CenterShowcase({ videoSrc }: { videoSrc: string }) {
     document.body.appendChild(video);
     videoRef.current = video;
 
-    const createTexture = () => {
-      const tex = new THREE.VideoTexture(video);
+    // Create canvas for alpha-preserving frame extraction.
+    // drawImage(video) on a 2D canvas preserves VP9 alpha;
+    // THREE.VideoTexture does NOT (WebGL texImage2D drops alpha from video elements).
+    const canvas = document.createElement('canvas');
+    canvas.width = 1280;
+    canvas.height = 720;
+    canvasRef.current = canvas;
+    const ctx = canvas.getContext('2d', { willReadFrequently: false });
+    ctxRef.current = ctx;
+
+    const onLoaded = () => {
+      // Draw first frame so texture isn't blank
+      if (ctx) ctx.drawImage(video, 0, 0, 1280, 720);
+
+      const tex = new THREE.CanvasTexture(canvas);
       tex.minFilter = THREE.LinearFilter;
       tex.magFilter = THREE.LinearFilter;
-      tex.format = THREE.RGBAFormat;
       tex.colorSpace = THREE.SRGBColorSpace;
       textureRef.current = tex;
-      setVideoTexture(tex);
+      setCanvasTexture(tex);
+
       video.play().catch((err) => {
-        console.warn('Video autoplay blocked, retrying on interaction:', err);
-        const playOnClick = () => {
-          video.play().catch(() => {});
-          document.removeEventListener('click', playOnClick);
-        };
+        console.warn('Video autoplay blocked:', err);
+        const playOnClick = () => video.play().catch(() => {});
         document.addEventListener('click', playOnClick, { once: true });
       });
     };
 
-    video.addEventListener('loadeddata', createTexture, { once: true });
+    video.addEventListener('loadeddata', onLoaded, { once: true });
     video.addEventListener('error', () => {
       console.warn('Failed to load transform video:', videoSrc);
     }, { once: true });
     video.load();
 
     return () => {
-      video.removeEventListener('loadeddata', createTexture);
       video.pause();
       video.src = '';
       if (video.parentNode) video.parentNode.removeChild(video);
       if (textureRef.current) textureRef.current.dispose();
       videoRef.current = null;
+      canvasRef.current = null;
+      ctxRef.current = null;
       textureRef.current = null;
     };
   }, [videoSrc]);
 
+  // Each frame: draw video → canvas (preserves alpha), then flag texture for GPU upload
   useFrame(({ clock }) => {
+    if (ctxRef.current && videoRef.current && textureRef.current) {
+      if (!videoRef.current.paused && videoRef.current.readyState >= 2) {
+        ctxRef.current.drawImage(videoRef.current, 0, 0, 1280, 720);
+        textureRef.current.needsUpdate = true;
+      }
+    }
     if (glowRef.current) {
       const pulse = Math.sin(clock.elapsedTime * 2) * 0.03 + 0.07;
       glowRef.current.opacity = pulse;
@@ -132,12 +153,12 @@ function CenterShowcase({ videoSrc }: { videoSrc: string }) {
           depthWrite={false}
         />
       </mesh>
-      {/* Transparent video plane */}
+      {/* Transparent video plane — canvas intermediary preserves VP9 alpha */}
       <mesh>
         <planeGeometry args={[5.0, 2.8]} />
-        {videoTexture ? (
+        {canvasTexture ? (
           <meshBasicMaterial
-            map={videoTexture}
+            map={canvasTexture}
             transparent
             alphaTest={0.1}
             depthWrite={false}

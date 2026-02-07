@@ -53,6 +53,8 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
 function CenterShowcase({ videoSrc }: { videoSrc: string }) {
   const [videoTexture, setVideoTexture] = useState<THREE.VideoTexture | null>(null);
   const glowRef = useRef<THREE.MeshBasicMaterial>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const textureRef = useRef<THREE.VideoTexture | null>(null);
 
   useEffect(() => {
     const video = document.createElement('video');
@@ -62,25 +64,48 @@ function CenterShowcase({ videoSrc }: { videoSrc: string }) {
     video.muted = true;
     video.playsInline = true;
     video.autoplay = true;
+    video.style.position = 'fixed';
+    video.style.top = '-9999px';
+    video.style.left = '-9999px';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0';
+    video.style.pointerEvents = 'none';
+    document.body.appendChild(video);
+    videoRef.current = video;
 
-    const onCanPlay = () => {
+    const createTexture = () => {
       const tex = new THREE.VideoTexture(video);
       tex.minFilter = THREE.LinearFilter;
       tex.magFilter = THREE.LinearFilter;
       tex.format = THREE.RGBAFormat;
       tex.colorSpace = THREE.SRGBColorSpace;
+      textureRef.current = tex;
       setVideoTexture(tex);
-      video.play().catch(() => {});
+      video.play().catch((err) => {
+        console.warn('Video autoplay blocked, retrying on interaction:', err);
+        const playOnClick = () => {
+          video.play().catch(() => {});
+          document.removeEventListener('click', playOnClick);
+        };
+        document.addEventListener('click', playOnClick, { once: true });
+      });
     };
 
-    video.addEventListener('canplay', onCanPlay, { once: true });
+    video.addEventListener('loadeddata', createTexture, { once: true });
+    video.addEventListener('error', () => {
+      console.warn('Failed to load transform video:', videoSrc);
+    }, { once: true });
     video.load();
 
     return () => {
-      video.removeEventListener('canplay', onCanPlay);
+      video.removeEventListener('loadeddata', createTexture);
       video.pause();
       video.src = '';
-      if (videoTexture) videoTexture.dispose();
+      if (video.parentNode) video.parentNode.removeChild(video);
+      if (textureRef.current) textureRef.current.dispose();
+      videoRef.current = null;
+      textureRef.current = null;
     };
   }, [videoSrc]);
 

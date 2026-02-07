@@ -5,8 +5,11 @@ import { useReducedMotion } from '@/lib/hooks';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import * as THREE from 'three';
 
+const CENTER_PHONE_FPS = 4;
+
 interface Props {
   screenshots: string[];
+  transformFrames?: string[];
 }
 
 function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
@@ -48,7 +51,85 @@ function PhoneCard({ screenshotUrl }: { screenshotUrl: string }) {
   );
 }
 
-function PhoneCarousel({ screenshots }: { screenshots: string[] }) {
+function CenterShowcasePhone({ frameUrls }: { frameUrls: string[] }) {
+  const [textures, setTextures] = useState<THREE.Texture[] | null>(null);
+  const materialRef = useRef<THREE.MeshBasicMaterial>(null);
+  const glowRef = useRef<THREE.MeshBasicMaterial>(null);
+  const frameIndex = useRef(0);
+
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    const promises = frameUrls.map(
+      (url) =>
+        new Promise<THREE.Texture>((resolve, reject) =>
+          loader.load(url, resolve, undefined, reject),
+        ),
+    );
+    Promise.all(promises)
+      .then((loaded) => setTextures(loaded))
+      .catch(() => setTextures(null));
+
+    return () => {
+      if (textures) {
+        textures.forEach((t) => t.dispose());
+      }
+    };
+  }, [frameUrls]);
+
+  useFrame(({ clock }) => {
+    if (!textures || textures.length === 0 || !materialRef.current) return;
+
+    const newIndex =
+      Math.floor(clock.elapsedTime * CENTER_PHONE_FPS) % textures.length;
+    if (newIndex !== frameIndex.current) {
+      frameIndex.current = newIndex;
+      materialRef.current.map = textures[newIndex];
+      materialRef.current.needsUpdate = true;
+    }
+
+    // Pulse glow during frame changes
+    if (glowRef.current) {
+      const pulse = Math.sin(clock.elapsedTime * 2) * 0.03 + 0.07;
+      glowRef.current.opacity = pulse;
+    }
+  });
+
+  return (
+    <group position={[0, 0, 0]}>
+      {/* Glow plane behind phone */}
+      <mesh position={[0, 0, -0.15]}>
+        <planeGeometry args={[3.4, 6.4]} />
+        <meshBasicMaterial
+          ref={glowRef}
+          color="#C9A87C"
+          transparent
+          opacity={0.07}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+      {/* Phone body */}
+      <RoundedBox args={[2.88, 5.76, 0.18]} radius={0.18} smoothness={4}>
+        <meshStandardMaterial
+          color="#131316"
+          metalness={0.85}
+          roughness={0.15}
+        />
+      </RoundedBox>
+      {/* Screen */}
+      <mesh position={[0, 0, 0.095]}>
+        <planeGeometry args={[2.52, 5.4]} />
+        {textures && textures.length > 0 ? (
+          <meshBasicMaterial ref={materialRef} map={textures[0]} />
+        ) : (
+          <meshBasicMaterial color="#1a1a1f" />
+        )}
+      </mesh>
+    </group>
+  );
+}
+
+function PhoneCarousel({ screenshots, transformFrames }: { screenshots: string[]; transformFrames?: string[] }) {
   const groupRef = useRef<THREE.Group>(null);
   const tiltRef = useRef<THREE.Group>(null);
   const count = screenshots.length;
@@ -128,6 +209,10 @@ function PhoneCarousel({ screenshots }: { screenshots: string[] }) {
   return (
     <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
       <group ref={tiltRef}>
+        {/* Center showcase phone — fixed at origin, does not rotate */}
+        {transformFrames && transformFrames.length > 0 && (
+          <CenterShowcasePhone frameUrls={transformFrames} />
+        )}
         <group ref={groupRef} onPointerDown={handlePointerDown}>
           {screenshots.map((url, i) => {
             const angle = (i / count) * Math.PI * 2;
@@ -169,8 +254,9 @@ function PhonePlaceholder() {
   );
 }
 
-function StaticCarouselFallback({ screenshots }: { screenshots: string[] }) {
+function StaticCarouselFallback({ screenshots, transformFrames }: { screenshots: string[]; transformFrames?: string[] }) {
   const display = screenshots.slice(0, 3);
+  const centerImage = transformFrames?.[0];
   return (
     <div className="w-full h-full flex items-center justify-center gap-4" aria-hidden="true">
       {display.map((src, i) => (
@@ -193,11 +279,29 @@ function StaticCarouselFallback({ screenshots }: { screenshots: string[] }) {
           />
         </div>
       ))}
+      {centerImage && (
+        <div
+          className="absolute rounded-[24px] glass overflow-hidden"
+          style={{
+            width: 180,
+            height: 360,
+            zIndex: 3,
+            boxShadow: '0 0 30px rgba(201, 168, 124, 0.2)',
+          }}
+        >
+          <img
+            src={centerImage}
+            alt=""
+            className="absolute inset-[6px] rounded-[18px] object-cover"
+            loading="lazy"
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-export default function Hero3DPhone({ screenshots }: Props) {
+export default function Hero3DPhone({ screenshots, transformFrames }: Props) {
   const { mounted, reducedMotion } = useReducedMotion();
 
   if (!mounted) {
@@ -211,7 +315,7 @@ export default function Hero3DPhone({ screenshots }: Props) {
   if (reducedMotion) {
     return (
       <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
-        <StaticCarouselFallback screenshots={screenshots} />
+        <StaticCarouselFallback screenshots={screenshots} transformFrames={transformFrames} />
       </div>
     );
   }
@@ -227,7 +331,7 @@ export default function Hero3DPhone({ screenshots }: Props) {
           >
             <ambientLight intensity={0.4} />
             <directionalLight position={[5, 5, 5]} intensity={0.6} />
-            <PhoneCarousel screenshots={screenshots} />
+            <PhoneCarousel screenshots={screenshots} transformFrames={transformFrames} />
             <Environment preset="city" />
           </Canvas>
         </Suspense>

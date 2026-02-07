@@ -232,10 +232,42 @@
   }
 }
 
+/* Logo Color Trace — sweeping brand-color beam across logo text */
+@keyframes logo-trace {
+  0%   { background-position: -150% center; }
+  40%  { background-position: 150% center; }
+  100% { background-position: 150% center; }
+}
+
+.logo-tracer {
+  background: linear-gradient(
+    90deg,
+    #F5F0EB 0%,
+    #F5F0EB 40%,
+    #C9A87C 44%,
+    #A78BFA 48%,
+    #39FF14 50%,
+    #8B5CF6 52%,
+    #C9A87C 56%,
+    #F5F0EB 60%,
+    #F5F0EB 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logo-trace 4s ease-in-out infinite;
+}
+
 /* Reduced-motion: show static centered spotlight glow */
 @media (prefers-reduced-motion: reduce) {
   #hero-spotlight {
     opacity: 0.5 !important;
     transform: translate(calc(50vw - 600px), calc(50vh - 600px)) !important;
+  }
+
+  .logo-tracer {
+    animation: none;
+    -webkit-text-fill-color: #F5F0EB;
   }
 }

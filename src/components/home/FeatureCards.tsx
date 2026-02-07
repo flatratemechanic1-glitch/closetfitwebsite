@@ -33,7 +33,7 @@ function StaticCards({ features }: Props) {
       {features.map((feature) => (
         <div
           key={feature.title}
-          className={`glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
+          className={`card-tracer glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
             feature.isAI
               ? 'border-l-2 border-l-lavender hover:shadow-glow-lavender'
               : 'hover:shadow-glow-champagne'
@@ -74,7 +74,7 @@ export default function FeatureCards({ features }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ delay: i * 0.1, duration: 0.5, ease: 'easeOut' }}
-          className={`glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
+          className={`card-tracer glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
             feature.isAI
               ? 'border-l-2 border-l-lavender hover:shadow-glow-lavender'
               : 'hover:shadow-glow-champagne'

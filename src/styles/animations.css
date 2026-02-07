@@ -65,6 +65,52 @@
   to { opacity: 0; }
 }
 
+/* Card Hover Tracer — same effect on individual cards */
+.card-tracer {
+  position: relative;
+}
+
+.card-tracer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  --tracer-angle: 0deg;
+
+  background: conic-gradient(
+    from var(--tracer-angle),
+    #C9A87C 0deg,
+    #A78BFA 15deg,
+    #39FF14 30deg,
+    #8B5CF6 40deg,
+    rgba(201, 168, 124, 0.08) 60deg,
+    rgba(201, 168, 124, 0.03) 180deg,
+    rgba(201, 168, 124, 0.08) 350deg,
+    #C9A87C 360deg
+  );
+
+  padding: 1px;
+
+  mask:
+    linear-gradient(#000, #000) content-box,
+    linear-gradient(#000, #000) border-box;
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#000, #000) content-box,
+    linear-gradient(#000, #000) border-box;
+  -webkit-mask-composite: xor;
+}
+
+.card-tracer:hover::after {
+  opacity: 1;
+  animation:
+    tracer-rotate 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+    tracer-fade-out 0.4s ease-out 1.5s forwards;
+}
+
 /* Scroll Progress Bar — Champagne to Lavender gradient */
 .scroll-progress {
   position: fixed;

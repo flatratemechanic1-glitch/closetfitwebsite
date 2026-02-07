@@ -2,6 +2,69 @@
    ClosetFit "Noir Luxe" Animations
    ============================================ */
 
+/* ============================================
+   Border Tracer — Animated perimeter light
+   Plays once on page load, then fades out.
+   ============================================ */
+
+@property --tracer-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border-tracer {
+  --tracer-border-width: 2px;
+  --tracer-duration: 2s;
+  --tracer-fade-duration: 0.6s;
+
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+
+  background: conic-gradient(
+    from var(--tracer-angle),
+    #C9A87C 0deg,
+    #A78BFA 15deg,
+    #39FF14 30deg,
+    #8B5CF6 40deg,
+    rgba(201, 168, 124, 0.08) 60deg,
+    rgba(201, 168, 124, 0.03) 180deg,
+    rgba(201, 168, 124, 0.08) 350deg,
+    #C9A87C 360deg
+  );
+
+  padding: var(--tracer-border-width);
+
+  mask:
+    linear-gradient(#000, #000) content-box,
+    linear-gradient(#000, #000) border-box;
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#000, #000) content-box,
+    linear-gradient(#000, #000) border-box;
+  -webkit-mask-composite: xor;
+
+  animation:
+    tracer-rotate var(--tracer-duration) cubic-bezier(0.4, 0, 0.2, 1) forwards,
+    tracer-fade-out var(--tracer-fade-duration) ease-out var(--tracer-duration) forwards;
+}
+
+.border-tracer.tracer-done {
+  display: none;
+}
+
+@keyframes tracer-rotate {
+  from { --tracer-angle: 0deg; }
+  to { --tracer-angle: 360deg; }
+}
+
+@keyframes tracer-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Scroll Progress Bar — Champagne to Lavender gradient */
 .scroll-progress {
   position: fixed;

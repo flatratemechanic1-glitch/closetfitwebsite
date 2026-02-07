@@ -1,0 +1,38 @@
+---
+// Animated border tracer that plays on every page load.
+// A thin border frames the viewport with a bright "light" that sweeps
+// around the perimeter through the brand colors, then fades out.
+---
+
+<div id="border-tracer" class="border-tracer" aria-hidden="true"></div>
+
+<script>
+  function initTracer() {
+    const el = document.getElementById('border-tracer');
+    if (!el) return;
+
+    const onEnd = (e: AnimationEvent) => {
+      if (e.animationName === 'tracer-fade-out') {
+        (e.target as HTMLElement).classList.add('tracer-done');
+        (e.target as HTMLElement).removeEventListener('animationend', onEnd);
+      }
+    };
+    el.addEventListener('animationend', onEnd);
+  }
+
+  function restartTracer() {
+    const el = document.getElementById('border-tracer');
+    if (!el) return;
+
+    el.classList.remove('tracer-done');
+    el.style.animation = 'none';
+    void el.offsetHeight;
+    el.style.animation = '';
+
+    initTracer();
+  }
+
+  initTracer();
+
+  document.addEventListener('astro:after-swap', restartTracer);
+</script>

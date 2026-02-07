@@ -54,8 +54,16 @@ function CenterShowcase({ frames }: { frames: string[] }) {
   const textures = useTexture(frames);
   const frameIndex = useRef(0);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
-  const glowRef = useRef<THREE.MeshBasicMaterial>(null);
   const elapsed = useRef(0);
+
+  // Disable mipmaps and use linear filtering to prevent edge blending artifacts
+  useEffect(() => {
+    for (const tex of textures) {
+      tex.generateMipmaps = false;
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+    }
+  }, [textures]);
 
   // Cycle frames at ~6fps (167ms per frame)
   useFrame((_, delta) => {
@@ -69,34 +77,18 @@ function CenterShowcase({ frames }: { frames: string[] }) {
         materialRef.current.needsUpdate = true;
       }
     }
-    if (glowRef.current) {
-      const pulse = Math.sin(performance.now() / 1000 * 2) * 0.03 + 0.07;
-      glowRef.current.opacity = pulse;
-    }
   });
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Subtle glow behind the figure */}
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[3.6, 5.5]} />
-        <meshBasicMaterial
-          ref={glowRef}
-          color="#C9A87C"
-          transparent
-          opacity={0.07}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-      {/* Frame sequence plane — portrait crop, transparent WebP textures */}
+      {/* Frame sequence plane — 5.40×10.0 preserves exact 368:682 aspect ratio */}
       <mesh>
-        <planeGeometry args={[3.1, 5.0]} />
+        <planeGeometry args={[5.40, 10.0]} />
         <meshBasicMaterial
           ref={materialRef}
           map={textures[0]}
           transparent
-          alphaTest={0.1}
+          alphaTest={0.5}
           depthWrite={false}
         />
       </mesh>

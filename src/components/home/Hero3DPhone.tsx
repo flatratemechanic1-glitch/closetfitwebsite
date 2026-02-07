@@ -85,7 +85,7 @@ function CenterShowcase({ frames }: { frames: string[] }) {
            No 'transparent' flag — alphaTest alone discards alpha<0.5 fragments
            without compositing artifacts that cause the visible rectangle. */}
       <mesh>
-        <planeGeometry args={[4.05, 7.5]} />
+        <planeGeometry args={[3.64, 6.75]} />
         <meshBasicMaterial
           ref={materialRef}
           map={textures[0]}

@@ -268,7 +268,7 @@ export default function Hero3DPhone({ screenshots, transformFrames, transformPos
 
   if (!mounted) {
     return (
-      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]">
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
         <PhonePlaceholder />
       </div>
     );
@@ -276,15 +276,15 @@ export default function Hero3DPhone({ screenshots, transformFrames, transformPos
 
   if (reducedMotion) {
     return (
-      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]">
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]">
         <StaticCarouselFallback screenshots={screenshots} transformPoster={transformPoster} />
       </div>
     );
   }
 
   return (
-    <ErrorBoundary fallback={<div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]"><PhonePlaceholder /></div>}>
-      <div className="w-full h-[500px] sm:h-[600px] lg:h-[750px]" style={{ cursor: 'grab' }}>
+    <ErrorBoundary fallback={<div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]"><PhonePlaceholder /></div>}>
+      <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px]" style={{ cursor: 'grab' }}>
         <Suspense fallback={<PhonePlaceholder />}>
           <Canvas
             gl={{ alpha: true, antialias: true }}

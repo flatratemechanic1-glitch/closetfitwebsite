@@ -81,7 +81,7 @@ function CenterShowcase({ frames }: { frames: string[] }) {
   });
 
   return (
-    <group position={[0, -0.4, 0]}>
+    <group position={[0, -0.7, 0]}>
       {/* Frame sequence plane — 3.64×6.75 preserves exact 368:682 aspect ratio.
            No 'transparent' flag — alphaTest alone discards alpha<0.5 fragments
            without compositing artifacts that cause the visible rectangle. */}
@@ -175,7 +175,7 @@ function PhoneCarousel({ screenshots, transformFrames }: { screenshots: string[]
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
+    <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.15}>
       <group ref={tiltRef}>
         {/* Center showcase — frame sequence animation, fixed at origin, does not rotate */}
         {transformFrames && transformFrames.length > 0 && (

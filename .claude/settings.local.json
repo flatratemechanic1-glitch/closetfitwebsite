@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(npx astro check:*)",
+      "Bash(npx vitest run:*)",
+      "Bash(npx astro dev:*)",
+      "Bash(ffprobe:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)",
+      "Bash(rembg p:*)",
+      "Bash(dir:*)",
+      "Read(//c/**)",
+      "Bash(python remove_bg.py:*)",
+      "Bash(npx astro build:*)",
+      "Bash(cd:*)",
+      "Bash(test:*)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(/c/Users/banan/AppData/Local/Programs/Python/Python314/python:*)",
+      "Bash(head:*)"
+    ]
+  }
+}
